@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "find.h": "c",
+        "find_dynamic.h": "c"
+    }
+}

@@ -1,0 +1,12 @@
+                          Name		  Real Time [s]	  User Time [s]	System Time [s]
+              table create 100:		       0.000020	       0.000000	       0.000000
+                  small search:		       0.007692	       0.000000	       0.000000
+           small load to array:		       0.000264	       0.000000	       0.000000
+       small remove from array:		       0.000020	       0.000000	       0.000000
+                 medium search:		      27.001289	       0.000000	       0.000000
+          medium load to array:		       0.009097	       0.000000	       0.010000
+      medium remove from array:		       0.000881	       0.000000	       0.000000
+                    big search:		      94.089318	       0.000000	       0.000000
+             big load to array:		       0.009571	       0.000000	       0.010000
+         big remove from array:		       0.001348	       0.000000	       0.000000
+            add remove 7 times:		       0.038065	       0.010000	       0.030000

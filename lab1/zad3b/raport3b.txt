@@ -1,78 +1,78 @@
 static O1:
-                          Name		  Real Time [s]	  User Time [s]	System Time [s]
-              table create 100:		       0.000000	       0.000000	       0.000000
-                  small search:		       0.010000	       0.000000	       0.000000
-           small load to array:		       0.000000	       0.000000	       0.000000
-       small remove from array:		       0.000000	       0.000000	       0.000000
-                 medium search:		       0.000000	       0.000000	       0.000000
-          medium load to array:		       0.000000	       0.000000	       0.000000
-      medium remove from array:		       0.000000	       0.000000	       0.000000
-                    big search:		       0.510000	       0.000000	       0.000000
-             big load to array:		       0.000000	       0.000000	       0.000000
-         big remove from array:		       0.000000	       0.000000	       0.000000
-            add remove 7 times:		       0.000000	       0.000000	       0.000000
+                          Name		       Real [s]	       User [s]	     System [s]	 Child User [s]	Child System [s]
+              table create 100:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+                  small search:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+           small load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+       small remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+                 medium search:		       0.010000	       0.000000	       0.000000	       0.000000	       0.000000	
+          medium load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+      medium remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+                    big search:		       0.470000	       0.000000	       0.000000	       0.200000	       0.270000	
+             big load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+         big remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+            add remove 7 times:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
 static O2:
-                          Name		  Real Time [s]	  User Time [s]	System Time [s]
-              table create 100:		       0.000000	       0.000000	       0.000000
-                  small search:		       0.010000	       0.000000	       0.000000
-           small load to array:		       0.000000	       0.000000	       0.000000
-       small remove from array:		       0.000000	       0.000000	       0.000000
-                 medium search:		       0.000000	       0.000000	       0.000000
-          medium load to array:		       0.000000	       0.000000	       0.000000
-      medium remove from array:		       0.000000	       0.000000	       0.000000
-                    big search:		       0.510000	       0.000000	       0.000000
-             big load to array:		       0.000000	       0.000000	       0.000000
-         big remove from array:		       0.000000	       0.000000	       0.000000
-            add remove 7 times:		       0.000000	       0.000000	       0.000000
+                          Name		       Real [s]	       User [s]	     System [s]	 Child User [s]	Child System [s]
+              table create 100:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+                  small search:		       0.010000	       0.000000	       0.000000	       0.000000	       0.000000	
+           small load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+       small remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+                 medium search:		       0.010000	       0.000000	       0.000000	       0.000000	       0.000000	
+          medium load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+      medium remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+                    big search:		       0.470000	       0.000000	       0.000000	       0.210000	       0.260000	
+             big load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+         big remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+            add remove 7 times:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
 static: O3
-                          Name		  Real Time [s]	  User Time [s]	System Time [s]
-              table create 100:		       0.000000	       0.000000	       0.000000
-                  small search:		       0.000000	       0.000000	       0.000000
-           small load to array:		       0.000000	       0.000000	       0.000000
-       small remove from array:		       0.000000	       0.000000	       0.000000
-                 medium search:		       0.000000	       0.000000	       0.000000
-          medium load to array:		       0.000000	       0.000000	       0.000000
-      medium remove from array:		       0.000000	       0.000000	       0.000000
-                    big search:		       0.500000	       0.000000	       0.000000
-             big load to array:		       0.000000	       0.000000	       0.000000
-         big remove from array:		       0.000000	       0.000000	       0.000000
-            add remove 7 times:		       0.000000	       0.000000	       0.000000
+                          Name		       Real [s]	       User [s]	     System [s]	 Child User [s]	Child System [s]
+              table create 100:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+                  small search:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+           small load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+       small remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+                 medium search:		       0.010000	       0.000000	       0.000000	       0.000000	       0.000000	
+          medium load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+      medium remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+                    big search:		       0.470000	       0.000000	       0.000000	       0.200000	       0.260000	
+             big load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+         big remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+            add remove 7 times:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
 static: Ofast
-                          Name		  Real Time [s]	  User Time [s]	System Time [s]
-              table create 100:		       0.000000	       0.000000	       0.000000
-                  small search:		       0.000000	       0.000000	       0.000000
-           small load to array:		       0.000000	       0.000000	       0.000000
-       small remove from array:		       0.000000	       0.000000	       0.000000
-                 medium search:		       0.010000	       0.000000	       0.000000
-          medium load to array:		       0.000000	       0.000000	       0.000000
-      medium remove from array:		       0.000000	       0.000000	       0.000000
-                    big search:		       0.490000	       0.000000	       0.000000
-             big load to array:		       0.000000	       0.000000	       0.000000
-         big remove from array:		       0.000000	       0.000000	       0.000000
-            add remove 7 times:		       0.000000	       0.000000	       0.000000
+                          Name		       Real [s]	       User [s]	     System [s]	 Child User [s]	Child System [s]
+              table create 100:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+                  small search:		       0.010000	       0.000000	       0.000000	       0.000000	       0.000000	
+           small load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+       small remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+                 medium search:		       0.010000	       0.000000	       0.000000	       0.000000	       0.000000	
+          medium load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+      medium remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+                    big search:		       0.480000	       0.000000	       0.000000	       0.210000	       0.260000	
+             big load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+         big remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+            add remove 7 times:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
 static: Os
-                          Name		  Real Time [s]	  User Time [s]	System Time [s]
-              table create 100:		       0.000000	       0.000000	       0.000000
-                  small search:		       0.010000	       0.000000	       0.000000
-           small load to array:		       0.000000	       0.000000	       0.000000
-       small remove from array:		       0.000000	       0.000000	       0.000000
-                 medium search:		       0.000000	       0.000000	       0.000000
-          medium load to array:		       0.000000	       0.000000	       0.000000
-      medium remove from array:		       0.000000	       0.000000	       0.000000
-                    big search:		       0.480000	       0.000000	       0.000000
-             big load to array:		       0.000000	       0.000000	       0.000000
-         big remove from array:		       0.000000	       0.000000	       0.000000
-            add remove 7 times:		       0.000000	       0.000000	       0.000000
+                          Name		       Real [s]	       User [s]	     System [s]	 Child User [s]	Child System [s]
+              table create 100:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+                  small search:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+           small load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+       small remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+                 medium search:		       0.010000	       0.000000	       0.000000	       0.000000	       0.000000	
+          medium load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+      medium remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+                    big search:		       0.460000	       0.000000	       0.000000	       0.190000	       0.270000	
+             big load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+         big remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+            add remove 7 times:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
 static: O0
-                          Name		  Real Time [s]	  User Time [s]	System Time [s]
-              table create 100:		       0.000000	       0.000000	       0.000000
-                  small search:		       0.010000	       0.000000	       0.000000
-           small load to array:		       0.000000	       0.000000	       0.000000
-       small remove from array:		       0.000000	       0.000000	       0.000000
-                 medium search:		       0.000000	       0.000000	       0.000000
-          medium load to array:		       0.000000	       0.000000	       0.000000
-      medium remove from array:		       0.000000	       0.000000	       0.000000
-                    big search:		       0.490000	       0.000000	       0.000000
-             big load to array:		       0.000000	       0.000000	       0.000000
-         big remove from array:		       0.000000	       0.000000	       0.000000
-            add remove 7 times:		       0.000000	       0.000000	       0.000000
+                          Name		       Real [s]	       User [s]	     System [s]	 Child User [s]	Child System [s]
+              table create 100:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+                  small search:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+           small load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+       small remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+                 medium search:		       0.010000	       0.000000	       0.000000	       0.000000	       0.000000	
+          medium load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+      medium remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+                    big search:		       0.470000	       0.000000	       0.000000	       0.210000	       0.250000	
+             big load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+         big remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+            add remove 7 times:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	

@@ -7,37 +7,34 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <time.h>
 #include <sys/times.h>
+#include <time.h>
 #include <unistd.h> 
+#include <time.h>
+#include <sys/resource.h>
 
-struct timespec real_time_start, real_time_end;
+
 clock_t st_time, en_time;
 struct tms st_cpu, en_cpu;
 FILE *report_file;
 
 
-double get_real_time(struct timespec real_time_start, struct timespec real_time_end) {
-    return( real_time_end.tv_sec - real_time_start.tv_sec )
-    + ( real_time_end.tv_nsec - real_time_start.tv_nsec ) / 1e9;
-}
-
-void start_timer(){
-    clock_gettime(CLOCK_REALTIME, &real_time_start);
+void start_timer() {
     st_time = times(&st_cpu);
 }
 
 void end_timer() {
     en_time = times(&en_cpu);
-    clock_gettime(CLOCK_REALTIME, &real_time_end);
 }
 
 void write_file_header(FILE *f) {
-    fprintf(f, "%30s\t\t%15s\t%15s\t%15s\n",
+    fprintf(f, "%30s\t\t%15s\t%15s\t%15s\t%15s\t%15s\n",
         "Name",
-        "Real Time [s]",
-        "User Time [s]",
-        "System Time [s]"
+        "Real [s]",
+        "User [s]",
+        "System [s]",
+        "Child User [s]",
+        "Child System [s]"
         );
 }
 
@@ -45,18 +42,21 @@ void write_file_header(FILE *f) {
 void save_timer(char *name, FILE *f) {
     end_timer();
 
-    double real_time = get_real_time(real_time_start, real_time_end);
-
     int clk_tics = sysconf(_SC_CLK_TCK);
+    double real_time = (double)(en_time - st_time) / clk_tics;
+    double user_time = (double)(en_cpu.tms_utime - st_cpu.tms_utime) / clk_tics;
+    double system_time = (double)(en_cpu.tms_stime - st_cpu.tms_stime) / clk_tics;
+    double child_user_time = (double)(en_cpu.tms_cutime - st_cpu.tms_cutime) / clk_tics;
+    double child_system_time = (double)(en_cpu.tms_cstime - st_cpu.tms_cstime) / clk_tics;
 
-    double user_time = (double)(en_cpu.tms_utime - st_cpu.tms_utime)/clk_tics;
-    double system_time = (double)(en_cpu.tms_stime - st_cpu.tms_stime)/clk_tics;
-
-    fprintf(f, "%30s:\t\t%15f\t%15f\t%15f\n", 
+    fprintf(f, "%30s:\t\t%15f\t%15f\t%15f\t%15f\t%15f\t\n", 
         name,
         real_time,
         user_time,
-        system_time);
+        system_time,
+        child_user_time,
+        child_system_time
+        );
 }
 
 int parse_end_timer(char *argv[], int i, int argc) {
@@ -114,9 +114,13 @@ int parse_remove_block(char *argv[], int i, int argc) {
 }
 
 
-
 int main(int argc, char *argv[]) {
-    char file_name[] = "raport2.txt";
+    #ifdef DYNAMIC
+        init_dynamic_library();
+    #endif
+
+
+    char file_name[] = "raport.txt";
     report_file = fopen(file_name, "a");
 
     write_file_header(report_file);

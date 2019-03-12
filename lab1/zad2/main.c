@@ -117,7 +117,7 @@ int parse_remove_block(char *argv[], int i, int argc) {
 
 int main(int argc, char *argv[]) {
     char file_name[] = "raport2.txt";
-    report_file = fopen(file_name, "wb");
+    report_file = fopen(file_name, "a");
 
     write_file_header(report_file);
 

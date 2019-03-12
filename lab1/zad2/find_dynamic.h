@@ -8,7 +8,7 @@ int search_directory(){
 
 }
 int last_search_to_array(){
-
+        
 }
 int file_to_array(char *file_name){
 
@@ -20,5 +20,5 @@ int delete_block(int idx){
 
 }
 void delete_array(){
-    
+
 }

@@ -71,9 +71,6 @@ int parse_end_timer(char *argv[], int i, int argc) {
     return 0;
 }
 
-
-
-
 int parse_create_table(char *argv[], int i, int argc) {
     if(i+1 >= argc) {
         fprintf(stderr, "create table wrong number of arguments\n");

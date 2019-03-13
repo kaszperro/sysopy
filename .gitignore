@@ -2,6 +2,7 @@
 *
 !*/
 !*.*
+!makefile
 
 # .o, .so, .a files:
 *.o

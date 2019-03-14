@@ -16,5 +16,3 @@ shared:
 
 clean:
 	rm -f *.o
-
-	

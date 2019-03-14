@@ -76,3 +76,6 @@ static: O0
              big load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
          big remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
             add remove 7 times:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+
+komentarz: najwolniej wypada brak optymalizacji (flaga O0), różnice pomiędzy optymalizacjami nie są duże, 
+jest to spowodowane tym, że najwięcej czasu zajmuje odpalenie systemowego polecenia find

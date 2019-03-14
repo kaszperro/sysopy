@@ -37,3 +37,6 @@ dynamic:
              big load to array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
          big remove from array:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
             add remove 7 times:		       0.000000	       0.000000	       0.000000	       0.000000	       0.000000	
+
+
+komenatrz: pomiędzy shared i dynamic nie występują duże różnice, static na dużym teście okazał się szybszy

@@ -21,29 +21,19 @@ int generate(const char *file_name, const unsigned int num_records, const unsign
 int sort(unsigned char * (*read_fun)(unsigned int, unsigned int, const char * ), 
             void (*write_fun)(unsigned int position, unsigned char *text, const char *file, size_t bytes), const char *file_name, 
                 const unsigned int num_records, const unsigned int byte_num){
-
-    
-    for(int i = 0; i < num_records; ++i) {
-         unsigned char* my_char = read_fun(i*byte_num, i*byte_num, file_name);
-        printf("(%d: %s, %d), ", i, my_char, (int)my_char[0]);
-        free(my_char);
-    }
-    printf("\n");
+                    
 
     for(int i = 0; i < num_records; ++i) {
-
         int min_index = i;
         unsigned char* min_char = read_fun(i*byte_num, i*byte_num, file_name);
 
         for(int j = i+1; j < num_records; ++j) {
             unsigned char *my_char = read_fun(j*byte_num, j*byte_num, file_name);
             if(my_char[0] < min_char[0]) {
-                //printf("free min: %s\n", min_char);
                 free(min_char);
                 min_char = my_char;
                 min_index = j;
             } else {
-                //printf("free my: %s\n", my_char);
                 free(my_char);
             }
         }
@@ -59,13 +49,6 @@ int sort(unsigned char * (*read_fun)(unsigned int, unsigned int, const char * ),
         free(min_record);
     }
 
-    for(int i = 0; i < num_records; ++i) {
-         unsigned char* my_char = read_fun(i*byte_num, i*byte_num, file_name);
-         printf("(%d: %s, %d), ", i, my_char, (int)my_char[0]);
-        free(my_char);
-    }
-      printf("\n");
-
     return 0;
 }
 
@@ -75,18 +58,16 @@ unsigned char * read_sys_fun(unsigned int byte_start, unsigned int byte_end, con
 
     int file = open(file_name, O_RDONLY); 
 
-    lseek(file,byte_start,0);
+    lseek(file, byte_start,0);
     read(file, buffer, bytes_to_read);
 
     close(file);
-
-    //printf("read sys: %s, %d\n", buffer, (int)buffer[0]);
 
     return buffer;
 }
 
 void write_sys_fun (unsigned int position, unsigned char *text, const char *file_name, size_t bytes) {
-    int file = open(file_name, O_RDWR);
+    int file = open(file_name, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
     lseek(file, position, 0);
 
     write(file, text, bytes);
@@ -103,25 +84,22 @@ unsigned char * read_lib_fun(unsigned int byte_start, unsigned int byte_end, con
 
     fread(buffer, sizeof(unsigned char), bytes_to_read, file);
     
-
     fclose(file);
-
-    //printf("read sys: %s, %d\n", buffer, (int)buffer[0]);
 
     return buffer;
 }
 
 void write_lib_fun (unsigned int position, unsigned char *text, const char *file_name, size_t bytes) {
-    
-    FILE *file =  fopen(file_name, "w");
+    FILE *file =  fopen(file_name, "r+");
+    if(file == NULL) {
+        file =  fopen(file_name, "a");
+    }
     fseek(file, position, SEEK_SET);
 
     fwrite(text, sizeof (unsigned char), bytes, file);
 
     fclose(file);
 }
-
-
 
 
 int sort_sys(const char *file_name, const unsigned int num_records, const unsigned int byte_num) { 
@@ -140,4 +118,32 @@ int sort_lib(const char *file_name, const unsigned int num_records, const unsign
         file_name,
         num_records,
         byte_num);
+}
+
+int copy_sys( const char *file_from, const char * file_to, const unsigned int num_records, const unsigned int byte_num){
+    for(int i = 0; i < num_records; ++i) {
+        unsigned char *my_rec = read_sys_fun(i*byte_num, (i+1)*byte_num-1, file_from);
+        write_sys_fun(i*num_records, my_rec, file_to, byte_num);
+        free(my_rec);
+    }
+    return 0;
+}
+
+int copy_lib( const char *file_from, const char * file_to, const unsigned int num_records, const unsigned int byte_num){
+    for(int i = 0; i < num_records; ++i) {
+        unsigned char *my_rec = read_lib_fun(i*byte_num, (i+1)*byte_num-1, file_from);
+        write_lib_fun(i*num_records, my_rec, file_to, byte_num);
+        free(my_rec);
+    }
+    return 0;
+}
+
+
+int print_file(const char *file_name, const unsigned int num_records, const unsigned int byte_num) {
+    for(int i = 0; i < num_records; ++i) {
+        unsigned char* my_char = read_sys_fun(i*byte_num, (i+1)*byte_num-1, file_name);
+        printf("record: %d, is: %s, first char num: %d\n", i, my_char, (int)my_char[0]);
+        free(my_char);
+    }
+    return 0;
 }

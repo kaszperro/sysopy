@@ -11,4 +11,6 @@ int copy_sys( const char *file_from, const char * file_to, const unsigned int nu
 
 int copy_lib( const char *file_from, const char * file_to, const unsigned int num_records, const unsigned int byte_num);
 
+int print_file(const char *file_name, const unsigned int num_records, const unsigned int byte_num);
+
 #endif

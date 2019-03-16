@@ -8,7 +8,7 @@ static:
 	ar rcs lib$(SOURCE_NAME).a lib$(SOURCE_NAME).o
 	make clean
 
-test:
+prog:
 	make static
 	$(CC) $(FLAGS) $(GEN_PROG_NAME).c -o $(GEN_PROG_NAME) lib$(SOURCE_NAME).a
 

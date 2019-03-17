@@ -17,7 +17,7 @@ test:
 	rm -f report.txt
 
 	for byte_num in 1 4 512  1024  4096 8192 ; do \
-		for rec_num in 10 100 ; do \
+		for rec_num in 500 2000 ; do \
 			./$(GEN_PROG_NAME) generate dane $$rec_num $$byte_num ; \
 			./$(GEN_PROG_NAME) copy dane dane.lib $$rec_num $$byte_num lib ; \
 			./$(GEN_PROG_NAME) copy dane dane.sys $$rec_num $$byte_num sys ; \

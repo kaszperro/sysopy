@@ -19,7 +19,7 @@ int generate(const char *file_name, const unsigned int num_records, const unsign
 
 
 int sort(unsigned char * (*read_fun)(unsigned int, unsigned int, const char * ), 
-            void (*write_fun)(unsigned int position, unsigned char *text, const char *file, size_t bytes), const char *file_name, 
+            void (*write_fun)(unsigned int , unsigned char *, const char *, size_t ), const char *file_name, 
                 const unsigned int num_records, const unsigned int byte_num){
                     
 

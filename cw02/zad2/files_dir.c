@@ -10,7 +10,7 @@
 #include <stdlib.h>
 
 
-int print_files(char *root_path, char mode, time_t date, int (*print_fun)( const char * , const struct stat )){
+int print_files(char *root_path, char mode, time_t date, int (*print_fun)( const char * , const struct stat* )){
     if (root_path == NULL)
         return 0;
 
@@ -58,7 +58,7 @@ int print_files(char *root_path, char mode, time_t date, int (*print_fun)( const
            continue;
 
 
-        print_fun(new_path, sb);
+        print_fun(new_path, &sb);
 
     }
 

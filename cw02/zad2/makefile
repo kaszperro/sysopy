@@ -21,4 +21,4 @@ nftw:
 
 
 test:
-	./main ~/Documents/AGH/sysopy '>' "2019-3-16 11:43:29"
+	./main ~/Dokumenty/AGH/sysopy '>' "2019-3-19 18:00:00"

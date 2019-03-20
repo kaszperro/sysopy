@@ -194,6 +194,8 @@ void copy_sys( const char *file_from, const char * file_to, const unsigned int n
     }
 
     free(holder);
+    close(from);
+    close(to);
 }
 
 void copy_lib( const char *file_from, const char * file_to, const unsigned int num_records, const unsigned int byte_num) {
@@ -225,4 +227,6 @@ void copy_lib( const char *file_from, const char * file_to, const unsigned int n
     }
 
     free(holder);
+    fclose(src_file);
+    fclose(dst_file);
 }

@@ -5,6 +5,6 @@
 #include <stdlib.h>
 #include <ftw.h>
 
-int print_files(char *root_path, char mode, time_t date, int (*print_fun)( const char * , const struct stat * ));
+void print_files(char *root_path, char mode, time_t date, void (*print_fun)( const char * , const struct stat * ));
 
 #endif

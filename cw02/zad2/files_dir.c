@@ -8,17 +8,18 @@
 #include <sys/stat.h>
 #include <time.h>
 #include <stdlib.h>
+#include <errno.h>
 
 
-int print_files(char *root_path, char mode, time_t date, int (*print_fun)( const char * , const struct stat* )){
+void print_files(char *root_path, char mode, time_t date, void (*print_fun)( const char * , const struct stat* )){
     if (root_path == NULL)
-        return 0;
+        return;
 
     DIR *dir = opendir(root_path);
 
     if (dir == NULL) {
-        fprintf(stderr, "dir error\n");
-        return -1;
+        fprintf(stderr, "error open dir: %s\n", strerror(errno));
+        exit(-1);
     }
     struct dirent* file;
 
@@ -32,9 +33,8 @@ int print_files(char *root_path, char mode, time_t date, int (*print_fun)( const
         struct stat sb;      
         
         if (lstat(new_path, &sb) < 0) {
-            fprintf(stderr, "unable to lstat file %s", new_path);
-            return -1;
-            //perr("unable to lstat file %s", file->d_name);
+            fprintf(stderr, "unable to lstat file %s: %s\n", new_path, strerror(errno));
+            exit(-1);
         }
 
 
@@ -45,8 +45,6 @@ int print_files(char *root_path, char mode, time_t date, int (*print_fun)( const
 
             print_files(new_path, mode, date, print_fun);
         }
-
-
 
         time_t modif_time = sb.st_mtime;
 
@@ -61,7 +59,5 @@ int print_files(char *root_path, char mode, time_t date, int (*print_fun)( const
         print_fun(new_path, &sb);
 
     }
-
-    return 0;
-
+    closedir(dir);
 }

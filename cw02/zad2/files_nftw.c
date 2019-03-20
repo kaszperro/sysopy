@@ -9,7 +9,7 @@
 
 char follow_mode;
 time_t follow_date;
-int (*my_print_fun)( const char * , const struct stat *);
+void (*my_print_fun)( const char * , const struct stat *);
 
 int file_info(const char *filename, const struct stat *statptr,
     int fileflags, struct FTW *pfwt) {
@@ -23,10 +23,11 @@ int file_info(const char *filename, const struct stat *statptr,
             || (diff < 0 && follow_mode == '<') )) 
         return 0;
 
-    return my_print_fun(filename, statptr);
+    my_print_fun(filename, statptr);
+    return 0;
 }
 
-int print_files(char *root_path, char mode, time_t date, int (*print_fun)( const char *, const struct stat * )){
+void print_files(char *root_path, char mode, time_t date, void (*print_fun)( const char *, const struct stat * )){
     int flags = FTW_PHYS;
     int fd_limit = 5;
     follow_mode = mode;
@@ -34,7 +35,7 @@ int print_files(char *root_path, char mode, time_t date, int (*print_fun)( const
 
     my_print_fun = print_fun; 
 
-    return nftw(root_path,
+    nftw(root_path,
         file_info,
         fd_limit, flags);
 }

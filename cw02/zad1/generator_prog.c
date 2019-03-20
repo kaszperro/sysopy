@@ -125,7 +125,7 @@ int main(int argc, char *argv[]) {
             i = parse_copy(argc, argv, i);
         } else {
             fprintf(stderr,"Wrong command\n");
-            return -1;
+            exit(-1);
         }
     }
     fclose(report_file);

@@ -9,5 +9,5 @@
 *.so
 *.a
 
-
+.DS_Store
 .vscode

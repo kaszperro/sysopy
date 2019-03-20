@@ -110,7 +110,7 @@ int main(int argc, char *argv[]) {
         report_file = fopen(file_name,"a");
     } else {
         report_file = fopen(file_name,"a");
-         write_file_header(report_file);
+        write_file_header(report_file);
     }
    
 

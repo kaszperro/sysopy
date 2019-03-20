@@ -20,164 +20,209 @@ void generate(const char *file_name, const unsigned int num_records, const unsig
     }
 }
 
+void sort_lib(const char *file_name, const unsigned int num_records, const unsigned int byte_num) { 
+    FILE *f = fopen(file_name, "r+");
 
-void sort(unsigned char * (*read_fun)(unsigned int, unsigned int, const char * ), 
-            void (*write_fun)(unsigned int , unsigned char *, const char *, size_t ), const char *file_name, 
-                const unsigned int num_records, const unsigned int byte_num){
-                    
+    if(f == NULL) {
+        fprintf(stderr, "cant open file sort lib: %s\n", strerror(errno));
+        exit(-1);
+    }
 
+    char *tmp1 = malloc(byte_num);
+    char *tmp2 = malloc(byte_num);
+    
     for(int i = 0; i < num_records; ++i) {
+        if (fseek(f, i * byte_num, SEEK_SET) < 0) {
+            fprintf(stderr, "cant fseek sort lib: %s\n", strerror(errno));
+            exit(-1);
+        }
+
+        if (fread(tmp1, 1, byte_num, f) != byte_num) {
+            fprintf(stderr, "cant read sort lib: %s\n", strerror(errno));
+            exit(-1);
+        }
+
+        unsigned char min_char = tmp1[0];
         int min_index = i;
-        unsigned char* min_char = read_fun(i*byte_num, i*byte_num, file_name);
-       
+
         for(int j = i+1; j < num_records; ++j) {
-            unsigned char *my_char = read_fun(j*byte_num, j*byte_num, file_name);
-            
-            if(my_char[0] < min_char[0]) {
-                free(min_char);
-                min_char = my_char;
+
+            if (fread(tmp2, 1, byte_num, f) != byte_num) {
+                fprintf(stderr, "cant read sort lib: %s\n", strerror(errno));
+                exit(-1);
+            }
+
+            if(tmp2[0] < min_char) {
+                min_char = tmp2[0];
                 min_index = j;
-            } else {
-                free(my_char);
+            } 
+        }
+
+        if(min_index != i) {
+            if (fseek(f, min_index * byte_num, SEEK_SET) < 0) {
+                fprintf(stderr, "cant seek sort lib: %s\n", strerror(errno));
+                exit(-1);
+            }
+
+            if (fread(tmp2, 1, byte_num, f) != byte_num) {
+                fprintf(stderr, "cant read sort lib: %s\n", strerror(errno));
+                exit(-1);
+            }
+
+            if (fseek(f, i * byte_num, SEEK_SET) < 0) {
+                fprintf(stderr, "cant fseek sort lib: %s\n", strerror(errno));
+                exit(-1);
+            }
+
+            if (fwrite(tmp2, 1, byte_num, f) != byte_num) {
+                fprintf(stderr, "error while writing to file sort lib: %s\n", strerror(errno));
+                exit(-1);
+            }
+
+            if (fseek(f, min_index * byte_num, SEEK_SET) < 0) {
+                fprintf(stderr, "error while fseek sort lib: %s\n", strerror(errno));
+                exit(-1);
+            }
+
+            if (fwrite(tmp1, 1, byte_num, f) != byte_num) {
+                fprintf(stderr, "error while fwrite sort lib: %s\n", strerror(errno));
+                exit(-1);
             }
         }
-        free(min_char);
-        //now swap
-        unsigned char * my_record = read_fun(i*byte_num, (i+1)*byte_num-1, file_name);
-        unsigned char * min_record = read_fun(min_index*byte_num, (min_index+1)*byte_num-1, file_name);
-
-        write_fun(min_index*byte_num, my_record, file_name, byte_num);
-        write_fun(i*byte_num, min_record, file_name, byte_num);
-
-        free(my_record);
-        free(min_record);
     }
+    free(tmp1);
+    free(tmp2);
+    fclose(f);
 }
 
-unsigned char * read_sys_fun(unsigned int byte_start, unsigned int byte_end, const char * file_name) {
-    int file = open(file_name, O_RDONLY); 
-
-    if(file < 0) {
-        fprintf(stderr, "error while reading sys: %s\n", strerror(errno));
+void sort_sys(const char *file_name, const unsigned int num_records, const unsigned int byte_num) {
+    int f = open(file_name, O_RDWR);
+    if (f < 0) {
+        fprintf(stderr, "cant open file sort sys: %s\n", strerror(errno));
         exit(-1);
     }
 
-    unsigned int bytes_to_read = byte_end-byte_start+1;
-    unsigned char *buffer = calloc(bytes_to_read, sizeof(unsigned char));
+    unsigned char* block1 = malloc(byte_num);
+    unsigned char* block2 = malloc(byte_num);
 
-    lseek(file, byte_start,0);
-    read(file, buffer, bytes_to_read);
+    for (int i = 0; i < num_records; ++i) {
+        lseek(f, i * byte_num, SEEK_SET);
 
-    close(file);
+        if (read(f, block1, byte_num) < 0) {
+            fprintf(stderr, "cant read file sort sys: %s\n", strerror(errno));
+            exit(-1);
+        }
 
-    return buffer;
-}
+        unsigned int min_index = i;
+        unsigned char min_char = block1[0];
 
-void write_sys_fun (unsigned int position, unsigned char *text, const char *file_name, size_t bytes) {
-    int file = open(file_name, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
+        for (int j = i + 1; j < num_records; ++j) {
+            if (read(f, block2, byte_num) < 0) {
+               fprintf(stderr, "cant read file sort sys: %s\n", strerror(errno));
+                exit(-1);
+            }
 
-    if(file < 0) {
-        fprintf(stderr, "error while writing sys: %s\n", strerror(errno));
-        exit(-1);
+            if (block2[0] < min_char) {
+                min_index = j;
+                min_char = block2[0];
+            }
+        }
+
+        if (min_index != i) {
+            if (lseek(f, min_index * byte_num, SEEK_SET) < 0) {
+                fprintf(stderr, "cant lseek file sort sys: %s\n", strerror(errno));
+                exit(-1);
+            }   
+
+            if (read(f, block2, byte_num) < 0) {
+                fprintf(stderr, "cant read file sort sys: %s\n", strerror(errno));
+                exit(-1);
+            }
+
+            if (lseek(f, i * byte_num, SEEK_SET) < 0) {
+                fprintf(stderr, "cant lread file sort sys: %s\n", strerror(errno));
+                exit(-1);
+            }
+
+            if (write(f, block2, byte_num) < 0) {
+                fprintf(stderr, "cant write file sort sys: %s\n", strerror(errno));
+                exit(-1);
+            }
+
+            if (lseek(f, min_index * byte_num, SEEK_SET) < 0) {
+                fprintf(stderr, "cant lseek file sort sys: %s\n", strerror(errno));
+                exit(-1);
+            }
+
+            if (write(f, block1, byte_num) < 0) {
+                fprintf(stderr, "cant write file sort sys: %s\n", strerror(errno));
+                exit(-1);
+            }
+        }
     }
 
-    lseek(file, position, 0);
-
-    write(file, text, bytes);
-
-    close(file);
-}
-
-unsigned char * read_lib_fun(unsigned int byte_start, unsigned int byte_end, const char * file_name) {
-    FILE *file = fopen(file_name, "r");
-
-    if(file == NULL) {
-        fprintf(stderr, "error while reading lib: %s\n", strerror(errno));
-        exit(-1);
-    }
-
-    unsigned int bytes_to_read = byte_end-byte_start+1;
-    unsigned char *buffer = calloc(bytes_to_read, sizeof(unsigned char));
-
-    fseek(file, byte_start, SEEK_SET);
-
-    fread(buffer, sizeof(unsigned char), bytes_to_read, file);
-    
-    fclose(file);
-
-    return buffer;
-}
-
-void write_lib_fun (unsigned int position, unsigned char *text, const char *file_name, size_t bytes) {
-    FILE *file =  fopen(file_name, "r+");
-    if(file == NULL) {
-        file =  fopen(file_name, "a");
-    }
-
-    if(file == NULL) {
-        fprintf(stderr, "error while writing lib: %s\n", strerror(errno));
-        exit(-1);
-    }
-
-    fseek(file, position, SEEK_SET);
-
-    fwrite(text, sizeof (unsigned char), bytes, file);
-
-    fclose(file);
-}
-
-
-void sort_sys(const char *file_name, const unsigned int num_records, const unsigned int byte_num) { 
-    sort(
-        read_sys_fun,
-        write_sys_fun,
-        file_name,
-        num_records,
-        byte_num);
-}
-
-void sort_lib(const char *file_name, const unsigned int num_records, const unsigned int byte_num) {
-    sort(
-        read_lib_fun,
-        write_lib_fun,
-        file_name,
-        num_records,
-        byte_num);
+    free(block1);
+    free(block2);
+    close(f);
 }
 
 void copy_sys( const char *file_from, const char * file_to, const unsigned int num_records, const unsigned int byte_num){
+    int from = open(file_from, O_RDONLY);
+    if (from < 0) {
+        fprintf(stderr, "cant open source file copy sys: %s\n", strerror(errno));
+        exit(-1);
+    }
+
+    int to = open(file_to, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
+    if (to < 0) {
+        fprintf(stderr, "cant open dest file copy sys: %s\n", strerror(errno));
+        exit(-1);
+    }
+
+    unsigned char* holder = malloc(byte_num);
+    
     for(int i = 0; i < num_records; ++i) {
-        unsigned char *my_rec = read_sys_fun(i*byte_num, (i+1)*byte_num-1, file_from);
-        if(my_rec == NULL) {
-            fprintf(stderr, "error while copying sys: %s\n", strerror(errno));
+        if (read(from, holder, byte_num) < 0) {
+            fprintf(stderr, "cant read from source file copy sys: %s\n", strerror(errno));
             exit(-1);
         }
-        write_sys_fun(i*num_records, my_rec, file_to, byte_num);
-        free(my_rec);
+
+        if (write(to, holder, byte_num) < 0) {
+            fprintf(stderr, "cant write to dst file copy sys: %s\n", strerror(errno));
+            exit(-1);
+        }
     }
+
+    free(holder);
 }
 
-void copy_lib( const char *file_from, const char * file_to, const unsigned int num_records, const unsigned int byte_num){
+void copy_lib( const char *file_from, const char * file_to, const unsigned int num_records, const unsigned int byte_num) {
+    FILE* src_file = fopen(file_from, "r");
+    if (src_file == NULL) {
+        fprintf(stderr, "cant open source file copy lib: %s\n", strerror(errno));
+        exit(-1);
+    }
+
+    FILE* dst_file = fopen(file_to, "w");
+    if (dst_file == NULL) {
+        fprintf(stderr, "cant open dst file copy lib: %s\n", strerror(errno));
+        exit(-1);
+    }
+
+     unsigned char* holder = malloc(byte_num);
+
     for(int i = 0; i < num_records; ++i) {
-        unsigned char *my_rec = read_lib_fun(i*byte_num, (i+1)*byte_num-1, file_from);
-        if(my_rec == NULL) {
-            fprintf(stderr, "error while copying lib: %s\n", strerror(errno));
+
+        if (fread(holder, 1, byte_num, src_file) != byte_num) {
+            fprintf(stderr, "cant read from source file copy lib: %s\n", strerror(errno));
             exit(-1);
         }
-        write_lib_fun(i*num_records, my_rec, file_to, byte_num);
-        free(my_rec);
-    }
-}
 
-
-void print_file(const char *file_name, const unsigned int num_records, const unsigned int byte_num) {
-    for(int i = 0; i < num_records; ++i) {
-        unsigned char* my_char = read_sys_fun(i*byte_num, (i+1)*byte_num-1, file_name);
-        if(my_char == NULL) {
-            fprintf(stderr, "error while printing file: %s\n", strerror(errno));
+        if (fwrite(holder, 1, byte_num, dst_file) != byte_num) {
+            fprintf(stderr, "cant write to dst file copy lib: %s\n", strerror(errno));
             exit(-1);
         }
-        printf("record: %d, is: %s, first char num: %d\n", i, my_char, (int)my_char[0]);
-        free(my_char);
     }
+
+    free(holder);
 }

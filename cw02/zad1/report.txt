@@ -1,7 +1,0 @@
-                          Name		       Real [s]	       User [s]	     System [s]
-copy lib, records: 500, bytes: 1:		       0.000000	       0.000000	       0.000000
-copy sys, records: 500, bytes: 1:		       0.000000	       0.000000	       0.000000
-sort lib, records: 500, bytes: 1:		       0.370000	       0.100000	       0.250000
-sort sys, records: 500, bytes: 1:		       0.230000	       0.030000	       0.180000
-copy lib, records: 2000, bytes: 1:		       0.020000	       0.000000	       0.000000
-copy sys, records: 2000, bytes: 1:		       0.010000	       0.000000	       0.000000

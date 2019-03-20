@@ -14,11 +14,15 @@ static_nftw:
 dir:
 	make static_dir
 	$(CC) $(FLAGS) main.c -o main $(DIR_NAME).a
+	make clean
 
 nftw:
 	make static_nftw
 	$(CC) $(FLAGS) main.c -o main $(NFTW_NAME).a
-
+	make clean
 
 test:
-	./main ~/Dokumenty/AGH/sysopy '>' "2019-3-19 18:00:00"
+	./main ~/Dokumenty/AGH/sysopy '>' "2019-03-20 11:39:26"
+
+clean:
+	rm -f *.o

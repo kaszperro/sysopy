@@ -20,7 +20,7 @@ void end_timer() {
 }
 
 void write_file_header(FILE *f) {
-    fprintf(f, "%30s\t\t%15s\t%15s\t%15s\n",
+    fprintf(f, "%40s\t\t%15s\t%15s\t%15s\n",
         "Name",
         "Real [s]",
         "User [s]",
@@ -36,7 +36,7 @@ void save_timer(char *name, FILE *f) {
     double system_time = (double)(en_cpu.tms_stime - st_cpu.tms_stime) / clk_tics;
     
 
-    fprintf(f, "%30s:\t\t%15f\t%15f\t%15f\n", 
+    fprintf(f, "%40s:\t\t%15f\t%15f\t%15f\n", 
         name,
         real_time,
         user_time,
@@ -103,17 +103,15 @@ int parse_copy(int argc, char *argv[], int i) {
 }
 
 int main(int argc, char *argv[]) {
-    char file_name[] = "report.txt";
+    char file_name[] = "wyniki.txt";
 
-    if((report_file = fopen(file_name,"r")) != NULL) {
-        fclose(report_file);
-        report_file = fopen(file_name,"a");
-    } else {
+    if( access( file_name, F_OK ) != 0 ) {
         report_file = fopen(file_name,"a");
         write_file_header(report_file);
+    } else {
+        report_file = fopen(file_name,"a");
     }
-   
-
+    
 
     int i = 1;
     while(i < argc) {
@@ -131,3 +129,13 @@ int main(int argc, char *argv[]) {
     fclose(report_file);
     return 0;
 }
+
+/*
+Operacje kopiowania wykonywane są praktycznie w zerowym czasie. Sortowanie jest dużo wolniejsze.
+
+Jeśli mamy dużo rekordów, które mają mało bajtów to lib jest wyraźnie szybsze od sys. 
+Im więcej bajtów mają rekordy, tym wolniejsze jest lib w porównaniu do sys. 
+Dzieje się tak, ponieważ funkcja fwrite buforuje operacje zapisania do pliku i dopiero
+po kilku wywołaniach faktycznie dokonuje wpisania do pliku, dzięki czemu zaoszczędza na czasie
+i wywołaniach systemowych. Im większy blok trzeba zapisać tym szybciej bufor się wyczerpuje.
+*/

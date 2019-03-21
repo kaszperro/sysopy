@@ -46,6 +46,10 @@ void save_timer(char *name, FILE *f) {
 
 
 int parse_generate(int argc, char *argv[], int i) {
+    if(i+3 >= argc) {
+        fprintf(stderr,"generate command wrong args\n");
+        exit(-1);
+    }
     char * file_name = argv[i+1];
     int rec_num = atoi(argv[i+2]);
     int byte_num = atoi(argv[i+3]);
@@ -56,6 +60,10 @@ int parse_generate(int argc, char *argv[], int i) {
 }
 
 int parse_sort(int argc, char *argv[], int i) {
+    if(i+4 >= argc) {
+        fprintf(stderr,"sort command wrong args\n");
+        exit(-1);
+    }
     char * file_name = argv[i+1];
     int rec_num = atoi(argv[i+2]);
     int byte_num = atoi(argv[i+3]);
@@ -78,6 +86,11 @@ int parse_sort(int argc, char *argv[], int i) {
 }
 
 int parse_copy(int argc, char *argv[], int i) {
+    if(i+5 >= argc) {
+        fprintf(stderr,"sort command wrong args\n");
+        exit(-1);
+    }
+
     char * file_from = argv[i+1];
     char * file_to = argv[i+2];
     int rec_num = atoi(argv[i+3]);

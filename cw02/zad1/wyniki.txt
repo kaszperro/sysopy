@@ -11,11 +11,11 @@ i wywołaniach systemowych. Im większy blok trzeba zapisać tym szybciej bufor 
        copy lib, records: 1000, bytes: 1:		       0.000000	       0.000000	       0.000000
        copy sys, records: 1000, bytes: 1:		       0.000000	       0.000000	       0.000000
        copy lib, records: 5000, bytes: 1:		       0.000000	       0.000000	       0.000000
-       copy sys, records: 5000, bytes: 1:		       0.000000	       0.000000	       0.000000
+       copy sys, records: 5000, bytes: 1:		       0.010000	       0.000000	       0.000000
       copy lib, records: 10000, bytes: 1:		       0.000000	       0.000000	       0.000000
       copy sys, records: 10000, bytes: 1:		       0.010000	       0.000000	       0.010000
        copy lib, records: 1000, bytes: 4:		       0.000000	       0.000000	       0.000000
-       copy sys, records: 1000, bytes: 4:		       0.000000	       0.000000	       0.000000
+       copy sys, records: 1000, bytes: 4:		       0.010000	       0.000000	       0.000000
        copy lib, records: 5000, bytes: 4:		       0.000000	       0.000000	       0.000000
        copy sys, records: 5000, bytes: 4:		       0.010000	       0.000000	       0.000000
       copy lib, records: 10000, bytes: 4:		       0.000000	       0.000000	       0.000000
@@ -26,57 +26,57 @@ i wywołaniach systemowych. Im większy blok trzeba zapisać tym szybciej bufor 
      copy sys, records: 5000, bytes: 512:		       0.010000	       0.000000	       0.000000
     copy lib, records: 10000, bytes: 512:		       0.000000	       0.000000	       0.000000
     copy sys, records: 10000, bytes: 512:		       0.020000	       0.000000	       0.010000
-    copy lib, records: 1000, bytes: 1024:		       0.000000	       0.000000	       0.000000
+    copy lib, records: 1000, bytes: 1024:		       0.010000	       0.000000	       0.000000
     copy sys, records: 1000, bytes: 1024:		       0.000000	       0.000000	       0.000000
-    copy lib, records: 5000, bytes: 1024:		       0.000000	       0.000000	       0.000000
+    copy lib, records: 5000, bytes: 1024:		       0.010000	       0.000000	       0.000000
     copy sys, records: 5000, bytes: 1024:		       0.010000	       0.000000	       0.000000
-   copy lib, records: 10000, bytes: 1024:		       0.010000	       0.000000	       0.000000
+   copy lib, records: 10000, bytes: 1024:		       0.000000	       0.000000	       0.000000
    copy sys, records: 10000, bytes: 1024:		       0.020000	       0.000000	       0.010000
-    copy lib, records: 1000, bytes: 4096:		       0.000000	       0.000000	       0.000000
-    copy sys, records: 1000, bytes: 4096:		       0.010000	       0.000000	       0.000000
-    copy lib, records: 5000, bytes: 4096:		       0.020000	       0.000000	       0.010000
+    copy lib, records: 1000, bytes: 4096:		       0.010000	       0.000000	       0.000000
+    copy sys, records: 1000, bytes: 4096:		       0.000000	       0.000000	       0.000000
+    copy lib, records: 5000, bytes: 4096:		       0.010000	       0.000000	       0.010000
     copy sys, records: 5000, bytes: 4096:		       0.010000	       0.000000	       0.010000
-   copy lib, records: 10000, bytes: 4096:		       0.030000	       0.000000	       0.020000
+   copy lib, records: 10000, bytes: 4096:		       0.040000	       0.000000	       0.030000
    copy sys, records: 10000, bytes: 4096:		       0.030000	       0.000000	       0.020000
-    copy lib, records: 1000, bytes: 8192:		       0.010000	       0.000000	       0.000000
+    copy lib, records: 1000, bytes: 8192:		       0.000000	       0.000000	       0.000000
     copy sys, records: 1000, bytes: 8192:		       0.000000	       0.000000	       0.000000
     copy lib, records: 5000, bytes: 8192:		       0.030000	       0.000000	       0.020000
     copy sys, records: 5000, bytes: 8192:		       0.020000	       0.000000	       0.020000
-   copy lib, records: 10000, bytes: 8192:		       0.060000	       0.000000	       0.040000
+   copy lib, records: 10000, bytes: 8192:		       0.060000	       0.000000	       0.050000
    copy sys, records: 10000, bytes: 8192:		       0.050000	       0.000000	       0.040000
        sort lib, records: 1000, bytes: 1:		       0.010000	       0.000000	       0.000000
        sort sys, records: 1000, bytes: 1:		       0.170000	       0.030000	       0.130000
-       sort lib, records: 5000, bytes: 1:		       0.210000	       0.180000	       0.020000
-       sort sys, records: 5000, bytes: 1:		       4.220000	       0.940000	       3.240000
-      sort lib, records: 10000, bytes: 1:		       0.770000	       0.720000	       0.030000
-      sort sys, records: 10000, bytes: 1:		      16.880000	       3.730000	      13.040000
+       sort lib, records: 5000, bytes: 1:		       0.200000	       0.180000	       0.020000
+       sort sys, records: 5000, bytes: 1:		       4.270000	       0.910000	       3.270000
+      sort lib, records: 10000, bytes: 1:		       0.770000	       0.720000	       0.040000
+      sort sys, records: 10000, bytes: 1:		      16.840000	       3.720000	      13.090000
        sort lib, records: 1000, bytes: 4:		       0.010000	       0.000000	       0.000000
-       sort sys, records: 1000, bytes: 4:		       0.170000	       0.040000	       0.120000
+       sort sys, records: 1000, bytes: 4:		       0.170000	       0.030000	       0.130000
        sort lib, records: 5000, bytes: 4:		       0.210000	       0.180000	       0.020000
-       sort sys, records: 5000, bytes: 4:		       4.250000	       0.990000	       3.210000
-      sort lib, records: 10000, bytes: 4:		       0.810000	       0.740000	       0.050000
-      sort sys, records: 10000, bytes: 4:		      17.350000	       3.770000	      13.440000
-     sort lib, records: 1000, bytes: 512:		       0.050000	       0.020000	       0.020000
-     sort sys, records: 1000, bytes: 512:		       0.180000	       0.030000	       0.140000
-     sort lib, records: 5000, bytes: 512:		       1.060000	       0.400000	       0.650000
-     sort sys, records: 5000, bytes: 512:		       4.590000	       0.910000	       3.630000
-    sort lib, records: 10000, bytes: 512:		       4.920000	       1.640000	       3.120000
-    sort sys, records: 10000, bytes: 512:		      18.280000	       3.770000	      14.460000
-    sort lib, records: 1000, bytes: 1024:		       0.080000	       0.020000	       0.050000
-    sort sys, records: 1000, bytes: 1024:		       0.180000	       0.030000	       0.150000
-    sort lib, records: 5000, bytes: 1024:		       2.000000	       0.580000	       1.400000
-    sort sys, records: 5000, bytes: 1024:		       4.860000	       0.930000	       3.900000
-   sort lib, records: 10000, bytes: 1024:		       9.110000	       2.370000	       6.700000
-   sort sys, records: 10000, bytes: 1024:		      19.580000	       3.730000	      15.790000
-    sort lib, records: 1000, bytes: 4096:		       0.260000	       0.050000	       0.200000
-    sort sys, records: 1000, bytes: 4096:		       0.260000	       0.020000	       0.220000
-    sort lib, records: 5000, bytes: 4096:		       9.130000	       1.270000	       7.810000
-    sort sys, records: 5000, bytes: 4096:		       8.850000	       0.910000	       7.910000
-   sort lib, records: 10000, bytes: 4096:		      35.840000	       5.020000	      30.500000
-   sort sys, records: 10000, bytes: 4096:		      34.230000	       3.860000	      30.070000
-    sort lib, records: 1000, bytes: 8192:		       0.440000	       0.050000	       0.380000
-    sort sys, records: 1000, bytes: 8192:		       0.460000	       0.030000	       0.420000
-    sort lib, records: 5000, bytes: 8192:		      13.110000	       1.240000	      11.740000
-    sort sys, records: 5000, bytes: 8192:		      12.750000	       0.940000	      11.700000
-   sort lib, records: 10000, bytes: 8192:		      52.650000	       4.820000	      47.570000
-   sort sys, records: 10000, bytes: 8192:		      51.920000	       3.740000	      47.670000
+       sort sys, records: 5000, bytes: 4:		       4.300000	       0.940000	       3.340000
+      sort lib, records: 10000, bytes: 4:		       0.790000	       0.730000	       0.050000
+      sort sys, records: 10000, bytes: 4:		      17.200000	       3.780000	      13.390000
+     sort lib, records: 1000, bytes: 512:		       0.050000	       0.010000	       0.020000
+     sort sys, records: 1000, bytes: 512:		       0.180000	       0.030000	       0.150000
+     sort lib, records: 5000, bytes: 512:		       1.000000	       0.400000	       0.590000
+     sort sys, records: 5000, bytes: 512:		       4.510000	       0.930000	       3.550000
+    sort lib, records: 10000, bytes: 512:		       4.140000	       1.560000	       2.570000
+    sort sys, records: 10000, bytes: 512:		      17.790000	       3.690000	      14.060000
+    sort lib, records: 1000, bytes: 1024:		       0.080000	       0.020000	       0.040000
+    sort sys, records: 1000, bytes: 1024:		       0.180000	       0.030000	       0.140000
+    sort lib, records: 5000, bytes: 1024:		       1.850000	       0.560000	       1.270000
+    sort sys, records: 5000, bytes: 1024:		       4.640000	       0.890000	       3.730000
+   sort lib, records: 10000, bytes: 1024:		       8.670000	       2.390000	       6.230000
+   sort sys, records: 10000, bytes: 1024:		      19.150000	       3.730000	      15.380000
+    sort lib, records: 1000, bytes: 4096:		       0.250000	       0.040000	       0.190000
+    sort sys, records: 1000, bytes: 4096:		       0.230000	       0.030000	       0.190000
+    sort lib, records: 5000, bytes: 4096:		       8.270000	       1.220000	       7.010000
+    sort sys, records: 5000, bytes: 4096:		       7.990000	       0.960000	       6.990000
+   sort lib, records: 10000, bytes: 4096:		      34.460000	       5.020000	      29.300000
+   sort sys, records: 10000, bytes: 4096:		      32.940000	       3.740000	      29.070000
+    sort lib, records: 1000, bytes: 8192:		       0.400000	       0.040000	       0.350000
+    sort sys, records: 1000, bytes: 8192:		       0.390000	       0.030000	       0.350000
+    sort lib, records: 5000, bytes: 8192:		      13.090000	       1.230000	      11.800000
+    sort sys, records: 5000, bytes: 8192:		      12.640000	       0.900000	      11.680000
+   sort lib, records: 10000, bytes: 8192:		      51.910000	       4.870000	      46.800000
+   sort sys, records: 10000, bytes: 8192:		      51.450000	       3.850000	      47.400000

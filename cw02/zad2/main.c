@@ -45,6 +45,11 @@ void print_from_stat(const char * filename, const struct stat* statptr) {
 }
 
 int main(int argc, char *argv[]) {
+    if(argc != 4) {
+        fprintf(stderr, "wrong arguments\n");
+        exit(-1);
+    }
+
     const char format[] = "%Y-%m-%d %H:%M:%S";
     struct tm *timestamp = malloc(sizeof(struct tm));
     char *date = argv[3];

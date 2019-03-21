@@ -22,7 +22,7 @@ nftw:
 	make clean
 
 test:
-	./main ~/Dokumenty/AGH/sysopy '>' "2019-03-20 11:39:26"
+	./main ~/Documents '>' "2019-03-20 11:39:26"
 
 clean:
 	rm -f *.o

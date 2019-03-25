@@ -1,10 +1,8 @@
 #include "error.h"
-
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 
 void gen_error(const char * format, ...) {
     va_list args;
@@ -13,3 +11,4 @@ void gen_error(const char * format, ...) {
     va_end(args);
     exit(1);
 }
+

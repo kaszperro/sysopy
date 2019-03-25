@@ -64,13 +64,15 @@ void make_dir(const char *path) {
 }
 
 int main(int argc, char *argv[]) {
-    if (argc != 4) {
-        gen_error("wrong arguments, usage: [list] [timeout] [mode]\n");
+    if (argc != 6) {
+        gen_error("wrong arguments, usage: [list] [timeout] [mode] [cpu time limit] [memory limit]\n");
     }
     const char archive_path[] = "archiwum";
     char *file_name = argv[1];
     int monitor_timeout = atoi(argv[2]);
     char *mode_txt = argv[3];
+    int cpu_limit = atoi(argv[4]);
+    int mem_limit = atoi(argv[5]);
 
     Mode mode = MEM;
     if(strcmp(mode_txt, "mem") == 0) {
@@ -95,7 +97,7 @@ int main(int argc, char *argv[]) {
         if(child_pid > 0) {
             ch_pids[i] = child_pid;
         } else {
-            monitor_file(monitored_files[i], archive_path, monitored_intervals[i], monitor_timeout, mode);
+            monitor_file(monitored_files[i], archive_path, monitored_intervals[i], monitor_timeout, mode, cpu_limit, mem_limit);
         }
     }
 

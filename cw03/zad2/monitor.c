@@ -55,7 +55,7 @@ void get_monitor_files(char *file_name) {
 void make_dir(const char *path) {
     struct stat sb;
     if (lstat(path, &sb) < 0) {
-        if (mkdir(path, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH) == -1) {
+        if (mkdir(path, S_IRWXU | S_IRWXG | S_IRWXO) == -1) {
             gen_error("cant mkdir %s, errno: %s\n", path, strerror(errno));
         }
     } else if(!S_ISDIR(sb.st_mode)) {

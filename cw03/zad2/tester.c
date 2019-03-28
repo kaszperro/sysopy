@@ -40,20 +40,13 @@ int main(int argc, char *argv[]) {
         timeinfo = localtime(&modif_time);
         strftime(date, sizeof(date), "%Y-%m-%d %H:%M:%S", timeinfo);
 
-        f = fopen("/dev/urandom", "rb");
-        fread(buff, bytes, 1, f);
-        fclose(f);
-
         for(int i = 0; i < bytes; ++i) {
-            if(buff[i] == '\n')
-                buff[i] = 'n';
+            buff[i] = (int)'a' + rand_num(0, 27);
         }
 
         f = fopen(file_path, "a");
         fprintf(f, "pid: %d\trand sleep: %d\tcurrent date: %s\tbytes: %s\n",
             getpid(), sleep_time, date, buff);
-        //fwrite(buff, bytes, 1, f);
-        //fputs("\n\n", f);
         fclose(f);
 
         sleep(sleep_time);

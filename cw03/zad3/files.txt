@@ -1,1 +1,1 @@
-error.c 3
+cos.txt 3

@@ -20,6 +20,7 @@
 char *file_buff = NULL;
 long file_size = 0;
 
+
 char *get_duplicate_path(char *file_path, const char *archive_path, time_t modif_time) {
     struct tm* timeinfo;
     char* ret_path = malloc(4096);
@@ -33,29 +34,45 @@ char *get_duplicate_path(char *file_path, const char *archive_path, time_t modif
     return ret_path;
 }
 
-
 void get_file_buff(char * file_path) {
     FILE* file = fopen(file_path, "rb");
     if (file == NULL) {
-        fprintf(stderr, "cant open file: %s: %s\n", file_path, strerror(errno));
-        return;
+        fprintf(stderr,"cant open file: %s: %s\n", file_path, strerror(errno));
+        exit(0);
     }
-    fseek(file, 0, SEEK_END);
+    if(fseek(file, 0, SEEK_END)) {
+        fprintf(stderr,"cant fseek file: %s: %s\n", file_path, strerror(errno));
+        exit(0);
+    }
     file_size = ftell(file);
+
     file_buff = realloc(file_buff, file_size);
+    if(file_buff == NULL) {
+        fprintf(stderr,"cant realloc file buffer for size %ld\n",file_size);
+        exit(0);
+    }
+ 
     rewind(file);
-    fread(file_buff, file_size, 1, file);
+
+    if(fread(file_buff, 1, file_size, file)!= file_size) {
+        fprintf(stderr,"cant fread file: %s\n", file_path);
+        exit(0);
+    }
     fclose(file);
 }
-
 
 void write_buff_to_file(char *file_path) {
     FILE* file = fopen(file_path, "wb");
     if (file == NULL) {
-        gen_error("cant open file: %s: %s\n", file_path, strerror(errno));
+        fprintf(stderr,"cant open file: %s: %s\n", file_path, strerror(errno));
+        exit(0);
     }
 
-    fwrite(file_buff, file_size, 1, file);
+    if(fwrite(file_buff, 1, file_size, file) != file_size) {
+        fprintf(stderr,"cant fwrite: %s\n", file_path);
+        exit(0);
+    }
+ 
     fclose(file);
 }
 
@@ -64,6 +81,7 @@ void duplicate_mem(char * file_path, const char * archive_path, time_t modif_tim
 
     if(file_buff != NULL) {
         write_buff_to_file(duplicate_path);
+        printf("MEM\tPID: %d\t%s -> %s\n", getpid(), file_path, duplicate_path);
     }
 
     get_file_buff(file_path);
@@ -78,11 +96,13 @@ void duplicate_copy(char * file_path, const char * archive_path, time_t modif_ti
     int status;
 
     if (child_pid == -1) {
-        gen_error("unable to fork: %s\n", strerror(errno));
+        fprintf(stderr,"unable to fork: %s\n", strerror(errno));
+        exit(0);
     } else if (child_pid > 0) {
         waitpid(child_pid, &status, 0);
         if(status != 0) {
-            fprintf(stderr, "exec copy failed\n");
+            fprintf(stderr,"exec copy failed\n");
+            exit(0);
         }
     } else {
         exit(execlp("cp", "cp", file_path, duplicate_path, NULL));
@@ -94,6 +114,7 @@ void duplicate_copy(char * file_path, const char * archive_path, time_t modif_ti
     free(duplicate_path);
 }
 
+
 double get_seconds(struct timeval t) {
     return t.tv_sec + t.tv_usec / 1000000.0;
 }
@@ -103,8 +124,8 @@ void monitor_file(char *file_path, const char *archive_path, int interval, int t
 
     cpu_rlimit.rlim_cur = cpu_limit;
     cpu_rlimit.rlim_max = cpu_limit;
-    mem_rlimit.rlim_cur = mem_limit * 1048576;
-    mem_rlimit.rlim_max = mem_limit * 1048576;
+    mem_rlimit.rlim_cur = mem_limit * 1024 * 1024;
+    mem_rlimit.rlim_max = mem_limit * 1024 * 1024;
 
     if (setrlimit(RLIMIT_CPU, &cpu_rlimit) < 0) {
         perror("cant set cpu limit");

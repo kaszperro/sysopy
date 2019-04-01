@@ -1,3 +1,16 @@
 pid: 32978	rand sleep: 3	current date: 2019-04-01 18:16:36	bytes: f
 pid: 32978	rand sleep: 3	current date: 2019-04-01 18:16:39	bytes: q
 pid: 32978	rand sleep: 3	current date: 2019-04-01 18:16:42	bytes: b
+pid: 32978	rand sleep: 3	current date: 2019-04-01 18:16:45	bytes: j
+pid: 32978	rand sleep: 3	current date: 2019-04-01 18:16:48	bytes: a
+pid: 32978	rand sleep: 3	current date: 2019-04-01 18:16:51	bytes: k
+pid: 32978	rand sleep: 3	current date: 2019-04-01 18:16:54	bytes: t
+pid: 32978	rand sleep: 3	current date: 2019-04-01 18:16:57	bytes: w
+pid: 32978	rand sleep: 3	current date: 2019-04-01 18:17:00	bytes: n
+pid: 32978	rand sleep: 3	current date: 2019-04-01 18:17:03	bytes: b
+pid: 32978	rand sleep: 3	current date: 2019-04-01 18:17:06	bytes: l
+pid: 32978	rand sleep: 3	current date: 2019-04-01 18:17:09	bytes: i
+pid: 32978	rand sleep: 3	current date: 2019-04-01 18:17:12	bytes: c
+pid: 32978	rand sleep: 3	current date: 2019-04-01 18:17:15	bytes: e
+pid: 32978	rand sleep: 3	current date: 2019-04-01 18:17:18	bytes: u
+pid: 32978	rand sleep: 3	current date: 2019-04-01 18:17:21	bytes: t

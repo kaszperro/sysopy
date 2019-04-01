@@ -90,7 +90,9 @@ int get_index_from_pid(pid_t pid) {
 }
 
 void stop_process_pid(pid_t pid) {
-    kill(pid, SIGUSR2);    
+    if(kill(pid, SIGUSR2) != 0) {
+        fprintf(stderr,"cant kill PID %d with signal SIGUSR2, errno: %s\n", pid, strerror(errno));
+    }   
 }
 
 void stop_all_processes() {
@@ -100,7 +102,9 @@ void stop_all_processes() {
 }
 
 void start_process_pid(pid_t pid) {
-    kill(pid, SIGUSR1);    
+    if(kill(pid, SIGUSR1) != 0) {
+        fprintf(stderr,"cant kill PID %d with signal SIGUSR1, errno: %s\n", pid, strerror(errno));
+    }  
 }
 
 void start_all_processes() {
@@ -110,7 +114,9 @@ void start_all_processes() {
 }
 
 void end_process_pid(pid_t pid) {
-    kill(pid, SIGTERM);
+    if(kill(pid, SIGTERM) != 0) {
+        fprintf(stderr,"cant kill PID %d with signal SIGTERM, errno: %s\n", pid, strerror(errno));
+    }
 }
 
 void end_all_processes(int s) {

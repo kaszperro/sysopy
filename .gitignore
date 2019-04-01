@@ -13,9 +13,9 @@
 .vscode
 
 #cw03 
-cw03/*/archiwum/
-cw03/*.txt
+cw03/**/archiwum
+cw03/**/*.txt
 
 #cw04
-cw04/*/archiwum
-cw04/*.txt
+cw04/**/archiwum
+cw04/**/*.txt

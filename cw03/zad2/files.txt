@@ -1,2 +1,0 @@
-cos.txt 2
-error.h 10

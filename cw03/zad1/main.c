@@ -53,7 +53,7 @@ void follow_dir() {
                     gen_error("unable to get current working directory, errno: %s", strerror(errno));
                 }
  
-                printf("PID: %d, dir: %s\n", getpid(), cwd);
+                printf("dir: %s, PID: %d\n", cwd, getpid());
                 int exec_status = execlp("ls", "ls", "-l", NULL);
                 if(exec_status != 0) {
                     gen_error("exec failed, errno: %s\n", strerror(errno));

@@ -121,13 +121,14 @@ void monitor_file(char *file_path, const char *archive_path, int interval, int t
     }
 
     last_modif = sb.st_mtime;
-
+    int num_copies = 0;
     if(mode == COPY) {
+        num_copies = 1;
         duplicate_copy(file_path, archive_path, last_modif);
     } else {
         duplicate_mem(file_path, archive_path, last_modif);
     }
-    int num_copies = 0;
+    
     time_t start = time(NULL);
     while(difftime(time(NULL), start) < timeout){
         if (lstat(file_path, &sb) < 0) {

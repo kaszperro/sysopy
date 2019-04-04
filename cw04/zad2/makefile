@@ -1,8 +1,10 @@
 CC = gcc
 FLAGS = -std=c99 -Wall
 
-prog:
+.PHONY: monitor tester
+
+monitor:
 	$(CC) $(FLAGS) monitor.c duplicator.c -o monitor
 
-test:
+tester:
 	$(CC) $(FLAGS) tester.c -o tester

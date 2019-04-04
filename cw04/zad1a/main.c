@@ -25,7 +25,8 @@ void handler_SIGTSTP(int signum) {
 int main() {
     signal(SIGINT, handler_SIGINT);
     struct sigaction sa;
-    memset(&sa, 0, sizeof(struct sigaction));
+    sa.sa_flags = 0 ;
+    sigemptyset(&sa.sa_mask); 
     sa.sa_handler = handler_SIGTSTP;
     sigaction(SIGTSTP, &sa, NULL);
 

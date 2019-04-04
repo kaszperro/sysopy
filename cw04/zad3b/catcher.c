@@ -18,9 +18,10 @@ Mode mode;
 
 int received_signals = 0;
 
+ union sigval value;
+
 void handle_signals(int sig, siginfo_t *info, void *ucontext){
-    union sigval value;
-    value.sival_int = 0;
+   
     if(sig == COUNT_SIGNAL) {
         received_signals++;
         
@@ -68,6 +69,8 @@ int main(int argc, char* argv[]) {
         exit(1);
     }
 
+    value.sival_int =0 ;
+
     sigset_t mask;
     sigfillset(&mask);
     sigdelset(&mask, COUNT_SIGNAL);
@@ -79,13 +82,13 @@ int main(int argc, char* argv[]) {
     }
 
     struct sigaction sa_handle;
-    memset(&sa_handle, 0, sizeof(struct sigaction));
     sa_handle.sa_flags = SA_SIGINFO;
     sa_handle.sa_sigaction = handle_signals;
-    sigemptyset(&sa_handle.sa_mask);
 
+    sigemptyset(&sa_handle.sa_mask);
     sigaddset(&sa_handle.sa_mask, COUNT_SIGNAL);
     sigaddset(&sa_handle.sa_mask, END_SIGNAL);
+
     sigaction(COUNT_SIGNAL, &sa_handle, NULL);
     sigaction(END_SIGNAL, &sa_handle, NULL);
 

@@ -29,8 +29,8 @@ void handle_signals(int sig, siginfo_t *info, void *ucontext){
             kill(info->si_pid, END_SIGNAL);
         } else {
             union sigval value;
-            value.sival_int = received_signals;
             for(int i = 0; i < received_signals; ++i) {
+                value.sival_int = i;
                 sigqueue(info->si_pid, COUNT_SIGNAL, value);
                
             } 
@@ -78,13 +78,13 @@ int main(int argc, char* argv[]) {
     }
 
     struct sigaction sa_handle;
-    memset(&sa_handle, 0, sizeof(struct sigaction));
     sa_handle.sa_flags = SA_SIGINFO;
     sa_handle.sa_sigaction = handle_signals;
-    sigemptyset(&sa_handle.sa_mask);
 
+    sigemptyset(&sa_handle.sa_mask);
     sigaddset(&sa_handle.sa_mask, COUNT_SIGNAL);
     sigaddset(&sa_handle.sa_mask, END_SIGNAL);
+    
     sigaction(COUNT_SIGNAL, &sa_handle, NULL);
     sigaction(END_SIGNAL, &sa_handle, NULL);
 

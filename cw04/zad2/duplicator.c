@@ -91,28 +91,42 @@ void end(int s) {
 }
 
 void stop(int s) {
-    running = 0;
-    printf("PID %d STOPS\n", getpid());
+    if(running == 0) {
+        fprintf(stderr,"PID %d already stopped\n", getpid());
+    } else {
+        running = 0;
+        printf("PID %d STOPS\n", getpid());
+    }
+
 }
 
 void start(int s) {
-    running = 1;
-    printf("PID %d STARTS\n", getpid());
-}
+    if(running == 1) {
+        fprintf(stderr, "PID %d is already running\n", getpid());
+    } else {
+        running = 1;
+        printf("PID %d STARTS\n", getpid());
+    }
 
-void ignore_SIGINT(int s) {}
+}
 
 void monitor_file(char *file_path, const char *archive_path, int interval) {
     struct sigaction sa_start, sa_stop, sa_end, sa_ignore;
-    memset(&sa_start, 0, sizeof(struct sigaction));
-    memset(&sa_stop, 0, sizeof(struct sigaction));
-    memset(&sa_end, 0, sizeof(struct sigaction));
-    memset(&sa_ignore, 0, sizeof(struct sigaction));
+
+    sigemptyset(&sa_start.sa_mask);
+    sigemptyset(&sa_stop.sa_mask);
+    sigemptyset(&sa_end.sa_mask);
+    sigemptyset(&sa_ignore.sa_mask);
+
+    sa_start.sa_flags = 0;
+    sa_stop.sa_flags = 0;
+    sa_end.sa_flags = 0;
+    sa_ignore.sa_flags = 0;
 
     sa_start.sa_handler = start;
     sa_stop.sa_handler = stop;
     sa_end.sa_handler = end;
-    sa_ignore.sa_handler = ignore_SIGINT;
+    sa_ignore.sa_handler = SIG_IGN;
 
     sigaction(SIGUSR1, &sa_start, NULL);
     sigaction(SIGUSR2, &sa_stop, NULL);

@@ -18,21 +18,17 @@ Mode mode;
 
 int sigs_to_send;
 int received_signals;
-int catcher_received_signals;
+
 
 void handle_signals(int sig, siginfo_t *info, void *ucontext){
     if(sig == COUNT_SIGNAL)  {
         received_signals++;
         if(mode == QUEUE) {
-            catcher_received_signals = info->si_value.sival_int;
+            printf("already received: %d, catcher index: %d\n", received_signals, info->si_value.sival_int);
         }
     }
     else if(sig == END_SIGNAL) {
-        if(mode == QUEUE) {
-            printf("from catcher: %d | ", catcher_received_signals);
-        }
-
-       
+        
         printf("sender received: %d signals, should receive: %d\n", received_signals, sigs_to_send);
         exit(0);
     }
@@ -75,13 +71,13 @@ int main(int argc, char* argv[]) {
     }
 
     struct sigaction sa_handle;
-    memset(&sa_handle, 0, sizeof(struct sigaction));
     sa_handle.sa_flags = SA_SIGINFO;
     sa_handle.sa_sigaction = handle_signals;
-    sigemptyset(&sa_handle.sa_mask);
 
+    sigemptyset(&sa_handle.sa_mask);
     sigaddset(&sa_handle.sa_mask, COUNT_SIGNAL);
     sigaddset(&sa_handle.sa_mask, END_SIGNAL);
+    
     sigaction(COUNT_SIGNAL, &sa_handle, NULL);
     sigaction(END_SIGNAL, &sa_handle, NULL);
 

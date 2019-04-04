@@ -7,6 +7,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <signal.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #include "duplicator.h"
 
@@ -170,7 +172,8 @@ int main(int argc, char *argv[]) {
 
 
     struct sigaction sa_end;
-    memset(&sa_end, 0, sizeof(struct sigaction));
+    sa_end.sa_flags = 0;
+    sigemptyset(&sa_end.sa_mask);
     sa_end.sa_handler = end_all_processes;
     sigaction(SIGINT, &sa_end, NULL);
 

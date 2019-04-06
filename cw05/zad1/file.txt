@@ -1,0 +1,2 @@
+cat ./pipes.c | wc -l
+cat ./pipes.c | head -3 | sort -r

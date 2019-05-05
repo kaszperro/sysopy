@@ -9,7 +9,7 @@
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
-        fprintf(stderr, "Wrong arguments, usage: fifo name\n");
+        fprintf(stderr, "Wrong arguments, usage: [fifo name]\n");
         exit(1);
     }
 

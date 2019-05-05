@@ -11,10 +11,10 @@
 #include "keygen.h"
 #include "message.h"
 
-int queue;
+int server_queue, private_queue;
 
 void clean() {
-    msgctl(queue, IPC_RMID, NULL);
+    msgctl(private_queue, IPC_RMID, NULL);
 }
 
 void handle_sigint(int sig) {
@@ -31,22 +31,17 @@ int main(int argc, char* argv[]) {
 
     sigaction(SIGINT,&sa,NULL);
   
+    if ((server_queue = msgget(get_public_key(), 0)) == -1) {
+        perror("cant open server queue");
+    }
 
-    key_t key = get_public_key();
-    if ((queue = msgget(key, IPC_CREAT | IPC_EXCL | 0600)) == -1) {
-        perror("cant create queue");
+
+    key_t private_key = get_private_key();
+    if ((private_queue = msgget(private_key, IPC_CREAT | IPC_EXCL | 0600)) == -1) {
+        perror("cant create private queue");
     }
 
     
-    message_t message;
-
-    while (1) {
-        if (msgrcv(queue, &message, MAX_MESSAGE_SIZE, -10, 0) == -1) {
-            perror("cant receive message");
-        }
-
-        printf("%ld: %s\n", message.type, message.text);
-    }
 
     return 0;
 }

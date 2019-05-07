@@ -8,69 +8,160 @@
 #include <unistd.h>
 #include <signal.h>
 #include <string.h>
-
+#include <time.h>
+#include <errno.h>
 
 #include "keygen.h"
 #include "message.h"
 #include "types.h"
+#include "que.h"
+#include "utils.h"
 
 int server_queue, private_queue;
 int id;
 
-int sender_pid =- 1;
+int sender_pid = 0;
 
-void clean() {
-    if(sender_pid != 0) {
-        msgctl(private_queue, IPC_RMID, NULL);
-        if(sender_pid != - 1) {
-            kill(sender_pid, SIGKILL);
-        }
-    }
-   
-}
 
 void send_to_server(message_t* message) {
-  if ((msgsnd(server_queue, message, MAX_MESSAGE_SIZE, 0) == -1)) {
+  if (send(server_queue, message)) {
     perror("unable to send message to server");
   }
 }
 
 
+void clean() {
+    if(sender_pid != 0) {
+        message_t message;
+        message.type = TYPE_STOP;
+        message.id = id;
+
+        send_to_server(&message);
+
+        kill(sender_pid, SIGKILL);
+
+        delete_queue(private_queue);  
+    }
+   
+}
+
+
 void handle_sigint(int sig) {
-    message_t message;
-    message.type = TYPE_STOP;
-    sprintf(message.text, "%d", id);
-    send_to_server(&message);
+    //kill_from_server();
     exit(0);
 }
 
 void handle_list() {
     message_t message;
     message.type = TYPE_LIST;
-    sprintf(message.text, "%d", id);
+    message.id = id;
     send_to_server(&message);
 }
 
-void sender_handle_line(char *line) {
-    char command[256];
-    sscanf(line, "%s", command);
+void handle_echo(char *text) {
+    message_t message;
+    message.type = TYPE_ECHO;
+    message.id = id;
+   
+    strcpy(message.text, text);
+
+    send_to_server(&message);
+}
+
+void handle_2all(char *rest) {
+    if(rest[0] == '\0') {
+        fprintf(stderr, "provide message\n");
+        return;
+    }
+
+    message_t message;
+    message.type = TYPE_2ALL;
+    message.id = id;
+
+    strcpy(message.text, rest);
+    send_to_server(&message);
+}
+
+void handle_2friends(char *rest) {
+    if(rest[0] == '\0') {
+        fprintf(stderr, "provide message\n");
+        return;
+    }
+
+    message_t message;
+    message.type = TYPE_2FRIENDS;
+    message.id = id;
+
+    strcpy(message.text, rest);
+    send_to_server(&message);
+}
+
+void handle_2one(char *rest) {
+    if(rest[0] == '\0') {
+        fprintf(stderr, "provide id\n");
+        return;
+    }
+
+    char to_id_str[32];
+    char text[256];
+    separate_command(rest, to_id_str, text);
+    if(text[0] == '\0') {
+        fprintf(stderr, "provide message\n");
+        return;
+    }
+
+    message_t message;
+    message.type = TYPE_2ONE;
+    message.id = id;
+
+    strcpy(message.text, rest);
+    send_to_server(&message);
+}
+
+void hanlde_stop() {
+    kill(getppid(), SIGINT);
+}
+
+void handle_friends(char *fr_list) {
+    message_t message;
+    message.type = TYPE_FRIENDS;
+    message.id = id;
+    strcpy(message.text, fr_list);
+    send_to_server(&message);
+}
+
+void sender_handle_line(char *command, char*rest) {
 
     if(strcmp("LIST", command) == 0) {
         handle_list();
-    } else {
-
+    } else if(strcmp("ECHO", command ) == 0) {
+        handle_echo(rest);
+    } else if(strcmp("2FRIENDS", command) == 0) {
+         handle_2friends(rest);
+    } else if(strcmp("2ALL", command) == 0 ) {
+        handle_2all(rest);
+    } else if(strcmp("2ONE", command) == 0 ) {
+        handle_2one(rest);
+    } else if(strcmp("STOP", command) == 0 ) {
+        hanlde_stop();
+    } else if(strcmp("FRIENDS", command) == 0) {
+        handle_friends(rest);
     }
     
 }
 
 void sender() {
-    char *res;
     char line[256];
+    char command[256];
+    char rest[256];
     while(1){
-        res = fgets(line, 1024, stdin);
-        
-        sender_handle_line(line);
-
+        fgets(line, 1024, stdin);
+        separate_command(line, command, rest);
+        if(strcmp("READ", command) == 0) {
+            
+        } else {
+            sender_handle_line(command, rest);
+        }
     }
     
 }
@@ -78,32 +169,53 @@ void sender() {
 void catcher() {
     message_t message;
     while(1){
-        if (msgrcv(private_queue, &message, MAX_MESSAGE_SIZE, -TYPE_LAST, 0) == -1) {
-            perror("cant receive message");
+        if ( receive(private_queue, &message) == -1) {
+             if(errno != EINTR) {
+                perror("cant receive message");
+                exit(1);    
+            }
         }
-        if(message.type == TYPE_STOP) {
-            printf("server shutdown, exiting\n");
-            exit(0);
+        printf("------\n");
+        switch (message.type) {
+            case TYPE_STOP:
+                printf("exiting\n");
+                exit(0);
+                break;
+
+            case TYPE_LIST:
+                printf("%s\n", message.text);
+                break;
+
+            case TYPE_ECHO: {
+                char* tim_info= ctime (&message.timestamp);
+                printf("time: %s%s\n", tim_info, message.text);
+                break;
+            }
+            case TYPE_2ALL:
+            case TYPE_2FRIENDS:
+            case TYPE_2ONE: {
+                char* tim_info= ctime (&message.timestamp);
+                printf("time: %sfrom: %d, message: %s\n", tim_info, message.id, message.text);
+            }
+            default:
+                break;
         }
 
-        printf("%s\n", message.text);
+        printf("------\n");
+
+        
     }
 }
 
-
-int main(int argc, char* argv[]) {
-    atexit(clean);
-
-  
-  
-    if ((server_queue = msgget(get_public_key(), 0)) == -1) {
+void initialize() {
+    if ((server_queue = get_queue(get_public_key())) == -1) {
         perror("cant open server queue");
         exit(1);
     }
 
 
     key_t private_key = get_private_key();
-    if ((private_queue = msgget(private_key, IPC_CREAT | IPC_EXCL | 0600)) == -1) {
+    if ((private_queue = create_queue(private_key)) == -1) {
         perror("cant create private queue");
         exit(1);
     }
@@ -113,20 +225,29 @@ int main(int argc, char* argv[]) {
     message_t message;
     message.type = TYPE_INIT;
     sprintf(message.text, "%d", private_key);
-    if ((msgsnd(server_queue, &message, MAX_MESSAGE_SIZE, 0) == -1)) {
+
+
+    if ( send(server_queue, &message) == -1) {
         perror("unable to register");
         exit(1);
     }
 
-    if ((msgrcv(private_queue, &message, MAX_MESSAGE_SIZE, -TYPE_LAST, 0) == -1)) {
+    if (  receive(private_queue, &message)  == -1) {
         perror("unable to register");
         exit(1);
     }
 
-    sscanf(message.text, "%d", &id);
-    printf("successfully registered with id %d, key: %u\n", id, private_key);
+    id = message.id;
+    printf("successfully registered with id %d\n", id);
+}
 
 
+int main(int argc, char* argv[]) {
+    atexit(clean);
+   
+    initialize();
+
+    
     sender_pid = fork();
     if(sender_pid == -1) {
         perror("cant fork");
@@ -148,6 +269,7 @@ int main(int argc, char* argv[]) {
 
         catcher();
     }
+    
 
     return 0;
 }

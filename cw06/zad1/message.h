@@ -11,5 +11,7 @@ typedef struct message_t {
 } message_t;
 
 #define MAX_MESSAGE_SIZE sizeof(message_t) - sizeof(long)
+#define ALL_MESSAGE_SIZE sizeof(message_t)
+#define MAX_MESSAGES 10
 
 #endif

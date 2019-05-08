@@ -1,8 +1,5 @@
 #define _XOPEN_SOURCE 500
 
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/msg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -23,8 +20,7 @@
 int queue;
 
 int clients[MAX_CLIENTS];
-int clients_friends[MAX_CLIENTS][MAX_GROUP];
-int clients_friends_count[MAX_CLIENTS];
+int clients_friends[MAX_CLIENTS][MAX_CLIENTS];
 
 int num_clients = 0;
 int clients_tab_size = 0;
@@ -32,7 +28,7 @@ int clients_tab_size = 0;
 int stops = 0;
 
 void clean() {
-    msgctl(queue, IPC_RMID, NULL);
+    delete_queue(queue, get_public_key());
 }
 
 void send_private(unsigned int client_id, message_t* message) {
@@ -46,12 +42,14 @@ void send_private(unsigned int client_id, message_t* message) {
 }
 
 void handle_sigint(int sig) {
-    stops= 1;
-    if(num_clients == 0)
+    stops = 1;
+    if(num_clients == 0) {
         exit(0);
+    }
+       
 
     message_t message;
-    message.type=TYPE_STOP;
+    message.type = TYPE_STOP;
     for(int i = 0; i < clients_tab_size; ++i) {
         if(clients[i] != -1) {
             send_private(i, &message);
@@ -84,7 +82,7 @@ void handle_init(message_t *msg) {
 
     int cl_id = find_cliend_id();
     if(cl_id != -1) {
-        if ((clients[cl_id] = msgget(key, 0)) == -1) {
+        if ((clients[cl_id] = get_queue(key)) == -1) {
             perror("cant open client private queue");
         }
 
@@ -102,32 +100,21 @@ void handle_init(message_t *msg) {
 }
 
 void handle_stop(message_t *msg) {
-    
     int client_id = msg->id;
-
+    if(close_queue(clients[client_id]) == -1) {
+        perror("cant close client queue\n");
+    }
     clients[client_id] = -1;
     num_clients--;
 
-    printf("client: %d stops, clients left: %d\n", client_id, num_clients);
-
-    if(num_clients==0 && stops ==1){
-        exit(0);
-    }
-
     for(int i = 0; i < clients_tab_size; ++i) {
-        for(int j = 0; j < clients_friends_count[i]; ++j) {
-            if(clients_friends[i][j] == client_id) {
-                for(int k = j; k < clients_friends_count[i]-1; ++k) {
-                    clients_friends[i][k] = clients_friends[i][k+1];
-                }
-
-                clients_friends_count[j]--;
-                break;
-            }
-        }
+        clients_friends[i][client_id] = clients_friends[client_id][i] = 0;
     }
    
-    
+    printf("client: %d stops, clients left: %d\n", client_id, num_clients);
+    if(num_clients == 0 && stops ==1){
+       exit(0);
+    }
 
 }
 
@@ -166,8 +153,9 @@ void handle_2friends(message_t *msg) {
     strcpy(message.text, msg->text);
     time(&message.timestamp);
     
-    for(int i = 0; i < clients_friends_count[cl]; ++i) {
-        send_private( clients_friends[cl][i], &message);
+    for(int i = 0; i < clients_tab_size; ++i) {
+        if(clients_friends[cl][i])
+            send_private(i, &message);
     }
 }
 
@@ -203,14 +191,49 @@ void handle_2one(message_t *msg) {
     send_private( to_id, &message);
 }
 
-int main(int argc, char* argv[]) {
+void set_friends(message_t *msg, int add) {
+    int cl = msg->id;
+    int friends_count = 0;
+    char *friends[32];
+    split_line(msg->text, friends, &friends_count);
 
-//init
+
+    for(int i = 0; i < friends_count; ++i)  {
+        int fr = atoi(friends[i]);
+        clients_friends[cl][fr] = add;
+    }
+    for(int i = 0; i < friends_count; ++i) {
+        free(friends[i]);
+    }
+}
+
+void handle_friends(message_t *msg) {
+    for(int i = 0; i < MAX_CLIENTS; ++i) {
+        clients_friends[msg->id][i] = 0;
+    }
+    set_friends(msg, 1);
+}
+
+void handle_add(message_t *msg) {
+    set_friends(msg, 1);
+}
+
+void handle_del(message_t *msg) {
+    set_friends(msg, 0);
+}
+
+void init() {
     for(int i = 0; i < MAX_CLIENTS; ++i) {
         clients[i] = -1;
-        clients_friends_count[i] = 0;
+        for(int j = 0; j < MAX_CLIENTS; ++j) {
+            clients_friends[i][j] = 0;
+        }
     }
-//end init
+}
+
+int main(int argc, char* argv[]) {
+
+    init();
 
     atexit(clean);
 
@@ -223,7 +246,7 @@ int main(int argc, char* argv[]) {
   
 
     key_t key = get_public_key();
-    if ((queue = msgget(key, IPC_CREAT | IPC_EXCL | 0600)) == -1) {
+    if ((queue = create_queue(key)) == -1) {
         perror("cant create queue");
         exit(1);
     }
@@ -232,22 +255,22 @@ int main(int argc, char* argv[]) {
 
     while (1) {
         if (  receive(queue, &message)   == -1) {
+            printf("cant receive\n");
             if(errno != EINTR) {
                 perror("cant receive message");
                 exit(1);    
-            }
+            } 
+            
             continue;
         }
          switch (message.type) {
               case TYPE_INIT: {
                     handle_init(&message);
                     break;
-              }
-              case TYPE_STOP: {
+              } case TYPE_STOP: {
                    handle_stop(&message);
                    break;
-              }
-              case TYPE_LIST: {
+              } case TYPE_LIST: {
                   handle_list(&message);
                   break;
               } case TYPE_ECHO: {
@@ -261,6 +284,18 @@ int main(int argc, char* argv[]) {
                   break;
               } case TYPE_2ONE: {
                    handle_2one(&message);
+                  break;
+              } case TYPE_FRIENDS: {
+                  handle_friends(&message);
+                  break;
+              } case TYPE_ADD: {
+                  handle_add(&message);
+                  break;
+              } case TYPE_DEL: {
+                  handle_del(&message);
+                  break;
+              } default: {
+                  fprintf(stderr, "wrong type\n");
                   break;
               }
             

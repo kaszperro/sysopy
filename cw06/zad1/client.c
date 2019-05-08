@@ -1,8 +1,5 @@
 #define _XOPEN_SOURCE 500
 
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/msg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -39,15 +36,14 @@ void clean() {
         send_to_server(&message);
 
         kill(sender_pid, SIGKILL);
-
-        delete_queue(private_queue);  
+        close_queue(server_queue);
+        delete_queue(private_queue, get_private_key());  
     }
    
 }
 
 
 void handle_sigint(int sig) {
-    //kill_from_server();
     exit(0);
 }
 
@@ -130,6 +126,22 @@ void handle_friends(char *fr_list) {
     send_to_server(&message);
 }
 
+void handle_add(char *fr_list) {
+    message_t message;
+    message.type = TYPE_ADD;
+    message.id = id;
+    strcpy(message.text, fr_list);
+    send_to_server(&message);
+}
+
+void handle_del(char *fr_list) {
+    message_t message;
+    message.type = TYPE_DEL;
+    message.id = id;
+    strcpy(message.text, fr_list);
+    send_to_server(&message);
+}
+
 void sender_handle_line(char *command, char*rest) {
 
     if(strcmp("LIST", command) == 0) {
@@ -146,6 +158,10 @@ void sender_handle_line(char *command, char*rest) {
         hanlde_stop();
     } else if(strcmp("FRIENDS", command) == 0) {
         handle_friends(rest);
+    } else if(strcmp("ADD", command) == 0) {
+        handle_add(rest);
+    } else if(strcmp("DEL", command) == 0) {
+        handle_del(rest);
     }
     
 }
@@ -158,7 +174,18 @@ void sender() {
         fgets(line, 1024, stdin);
         separate_command(line, command, rest);
         if(strcmp("READ", command) == 0) {
-            
+            int lines_count = 0;
+            char *lines[256];
+
+            get_lines_from_file(rest, lines, &lines_count);
+
+            printf("jest: %d lini\n", lines_count);
+
+            for(int i = 0; i < lines_count; ++i) {
+                separate_command(lines[i], command, rest);
+                sender_handle_line(command, rest);
+            }
+
         } else {
             sender_handle_line(command, rest);
         }

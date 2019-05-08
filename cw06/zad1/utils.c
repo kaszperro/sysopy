@@ -22,7 +22,7 @@ void split_line(char* line, char*output[], int *output_len) {
     
 
     while(arg != NULL && arg[0] != EOF) {
-        output[arg_cnt++] = arg;
+        output[arg_cnt++] = strdup(arg);
         arg = strtok_r(NULL, " ", &line_tmp);
     }
     *output_len = arg_cnt;
@@ -41,6 +41,42 @@ void separate_command(char *line, char*command, char *rest) {
     } else {
         strcpy(rest, txt);
     }
-    strcpy(command, cmd);
-   
+    if(cmd == NULL) {
+        command[0] = '\0';
+    } else {
+        strcpy(command, cmd);
+    }
+}
+
+void get_lines_from_file(char *file_path, char*lines[], int *num_lines) {
+
+    FILE* f = fopen(file_path, "r");
+    if (f == NULL) {
+        fprintf(stderr, "cant open file %s\n", file_path);
+        exit(1);
+    }
+
+    fseek(f, 0, SEEK_END);
+    long fsize = ftell(f);
+    fseek(f, 0, SEEK_SET);
+
+    char* buffer = malloc(fsize + 1);
+    if (fread(buffer, 1, fsize, f) != fsize) {
+        fprintf(stderr, "cant read from file %s\n", file_path);
+        exit(1);
+    }
+
+    fclose(f);
+
+    char *buff_tmp = buffer;
+    char *line = strtok_r(buffer, "\n",&buff_tmp);
+
+    int lines_count = 0;
+    while(line != 0 && line[0] != EOF) {
+        lines[lines_count++] = line;
+        line = strtok_r(NULL, "\n", &buff_tmp);
+    }
+
+    free(buffer);
+    *num_lines = lines_count;
 }

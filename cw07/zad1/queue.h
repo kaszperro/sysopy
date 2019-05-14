@@ -28,5 +28,6 @@ queue_t new_queue(int capacity, int max_weight);
 
 int queue_push(queue_t *q, pack_t pack, sem_id_t sem);
 pack_t* queue_pop(queue_t *q, sem_id_t sem, pack_t* pack);
+pack_t* queue_pop_non_sem(queue_t *q, pack_t* pack);
 
 #endif

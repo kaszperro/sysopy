@@ -21,13 +21,6 @@ int queue_push(queue_t *q, pack_t pack, sem_id_t sem) {
         return -2;
 
     lock_semaphore(sem);
-
-    if(q->is_truck == 0) {
-        printf("queue not truck\n");
-        unlock_semaphore(sem);
-        exit(0);
-    }
-        
     
     int err_code = 0;
 
@@ -45,9 +38,7 @@ int queue_push(queue_t *q, pack_t pack, sem_id_t sem) {
     return err_code;
 }
 
-pack_t* queue_pop(queue_t *q, sem_id_t sem, pack_t* pack) {
-    lock_semaphore(sem);
-   
+pack_t* queue_pop_non_sem(queue_t *q, pack_t* pack) {
     if ( q->size == 0) {
         pack = NULL;
     } else {
@@ -56,7 +47,15 @@ pack_t* queue_pop(queue_t *q, sem_id_t sem, pack_t* pack) {
         q->size -= 1;
         q->weight -= pack->weight;
     }
+    return pack;
+}
 
+pack_t* queue_pop(queue_t *q, sem_id_t sem, pack_t* pack) {
+    lock_semaphore(sem);
+
+    pack = queue_pop_non_sem(q, pack);
+    
     unlock_semaphore(sem);
+
     return pack;
 }

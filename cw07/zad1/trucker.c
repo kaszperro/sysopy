@@ -18,22 +18,23 @@ sem_id_t q_sem;
 void clean() {
     q->is_truck=0;
 
-
     printf("clening queue\n");
+    lock_semaphore(q_sem);
     pack_t pack;
     while( q->size > 0){
-         queue_pop(q, q_sem, &pack);
-         printf("usunalem\n");
+         queue_pop_non_sem(q, &pack);
     }
     printf("queue cleand, leaving\n");
-
+    unlock_semaphore(q_sem);
 
     detach_shared_mem(q, QUEUE_SIZE);
     free_shared_mem(get_queue_mem_key(), mem_id);
+    
     remove_semaphore(get_queue_mem_key(), q_sem);
 }
 
 void handle_sigint(int sig) {
+    unlock_semaphore(q_sem);
     exit(0);
 }
 

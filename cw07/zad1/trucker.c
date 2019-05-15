@@ -30,7 +30,7 @@ void clean() {
     detach_shared_mem(q, QUEUE_SIZE);
     free_shared_mem(get_queue_mem_key(), mem_id);
     
-    remove_semaphore(get_queue_mem_key(), q_sem);
+    remove_semaphore(get_queue_sem_key(), q_sem);
 }
 
 void handle_sigint(int sig) {

@@ -19,7 +19,7 @@ key_t get_queue_sem_key() {
 
 key_t get_queue_mem_key() {
     key_t key;
-    if ((key = ftok(getenv("HOME"), 5678)) == -1) {
+    if ((key = ftok(getenv("HOME"), 4321)) == -1) {
        perror("cant generate private key");
        exit(1);
     }

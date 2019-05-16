@@ -29,7 +29,7 @@ void place_pack() {
     pack_t p = new_pack(weight);
     int err = queue_push(q, p, sem);
     if(err == 0) {
-        printf("%d placed new pack at %ld.%ld weight: %d\n", pid, p.time.tv_sec, p.time.tv_usec, weight);
+        printf("%d placed new pack at %ld, %ld weight: %d, queue left space: %d\n", pid, p.time.tv_sec, p.time.tv_usec, weight, q->max_weight-q->weight);
     } else if(err == -1) {
         printf("%d cant place pack, queue full\n", pid);
     } else if(err == -2) {

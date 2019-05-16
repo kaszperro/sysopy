@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
             perror("cant fork\n");
             exit(1);
         } else if(pid == 0) {
-            execl("./worker", "worker", weight_str, NULL);
+            execl("./loader", "loader", weight_str, NULL);
         }
     }
 

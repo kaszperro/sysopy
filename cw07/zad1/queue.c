@@ -17,25 +17,24 @@ queue_t new_queue(int capacity, int max_weight) {
 }
 
 int queue_push(queue_t *q, pack_t pack, sem_id_t sem) {
-    if(q->weight + pack.weight > q->max_weight)
-        return -2;
-
     lock_semaphore(sem);
-    
-    int err_code = 0;
 
-    if (q->size == q->capacity) {
-        err_code = -1;
+    int err = 0;
+    if(q->weight + pack.weight > q->max_weight)
+        err = -2;
+
+    else if (q->size == q->capacity) {
+        err = -1;
     } else {
         q->tail = (q->tail + 1) % q->capacity;
         q->packs[q->tail] = pack;
         q->size += 1;
         q->weight += pack.weight;
-        err_code = 0;
+        err = 0;
     }
 
     unlock_semaphore(sem);
-    return err_code;
+    return err;
 }
 
 pack_t* queue_pop_non_sem(queue_t *q, pack_t* pack) {

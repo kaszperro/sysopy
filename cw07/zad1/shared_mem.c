@@ -68,7 +68,7 @@ sem_id_t create_semaphore(int key) {
 }
 
 sem_id_t open_semaphore(int key){
-    sem_id_t id = semget(key, 1, 0);
+    sem_id_t id = semget(key, 0, 0);
     if (id == -1) {
         perror("cant open semaphore");
         exit(1);

@@ -69,7 +69,7 @@ void normalize_filter(filter_t *filter) {
 }
 
 void apply_filter(filter_t* filter, img_t *input, img_t *output, int row, int col) {
-    int filter_offset = ceill(filter->size/2);
+    int filter_offset = ceil(filter->size/2);
 
     double buffer[3];
     buffer[0]=buffer[1]=buffer[2] = 0;
@@ -78,6 +78,9 @@ void apply_filter(filter_t* filter, img_t *input, img_t *output, int row, int co
         for(int j = 0; j < filter->size; ++j) {
             int new_row = MAX(0, row - filter_offset + i);
             int new_col = MAX(0, col - filter_offset + j);
+
+            new_row = MIN(input->height - 1, new_row);
+            new_col = MIN(input->width - 1, new_col);
 
             int inp_index = row_col_to_index(input, new_row, new_col);
             int f_index = filter->size * i + j;

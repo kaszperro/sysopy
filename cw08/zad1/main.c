@@ -25,19 +25,24 @@ void * thread_function(void *arg) {
 
 
     if (thread_type == THREAD_TYPE_BLOCK) {
-        int start_row = index * ceil(input_image.width/(float)num_threads);
-        int end_row = (index+1) * ceil(input_image.width/(float)num_threads);
+        int start_col = index * ceil(input_image.width/(float)num_threads);
+        int end_col = (index+1) * ceil(input_image.width/(float)num_threads);
 
-        if(end_row > input_image.width) end_row = input_image.width;
+        if(end_col> input_image.width) end_col = input_image.width;
 
        //printf("%d: %d %d\n", index, start_row, end_row);
 
-        for(int r = start_row; r < end_row; ++r) {
-            for(int c = 0; c < input_image.height; ++c) {
+        for(int c = start_col; c < end_col; ++c) {
+            for(int r = 0; r < input_image.height; ++r) {
                 apply_filter(&filter, &input_image, &out_image, r, c);   
             }
         }
-        
+    } else {
+        for(int c = index; c < input_image.width; c += num_threads) {
+            for(int r = 0; r < input_image.height; ++r) {
+                apply_filter(&filter, &input_image, &out_image, r, c);   
+            }
+        }
     }
     struct timeval timestamp_end;
     gettimeofday(&timestamp_end, NULL);

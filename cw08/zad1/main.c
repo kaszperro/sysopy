@@ -30,8 +30,6 @@ void * thread_function(void *arg) {
 
         if(end_col> input_image.width) end_col = input_image.width;
 
-       //printf("%d: %d %d\n", index, start_row, end_row);
-
         for(int c = start_col; c < end_col; ++c) {
             for(int r = 0; r < input_image.height; ++r) {
                 apply_filter(&filter, &input_image, &out_image, r, c);   

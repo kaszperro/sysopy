@@ -4,362 +4,728 @@
 filter size: 3
 ------------
 	threads: 1
-thread 0 time: 0.035188
-program finished, time took: 0.035285
+thread 0 time: 0.037021
+program finished, time took: 0.037128
 	threads: 2
-thread 0 time: 0.018545
-thread 1 time: 0.018561
-program finished, time took: 0.018641
+thread 0 time: 0.018913
+thread 1 time: 0.018875
+program finished, time took: 0.018998
 	threads: 4
-thread 0 time: 0.010065
-thread 1 time: 0.009365
-thread 2 time: 0.009901
-thread 3 time: 0.009342
-program finished, time took: 0.010122
+thread 0 time: 0.010010
+thread 1 time: 0.009460
+thread 2 time: 0.009624
+thread 3 time: 0.009406
+program finished, time took: 0.010080
 	threads: 8
-thread 0 time: 0.008275
-thread 1 time: 0.005148
-thread 2 time: 0.004952
-thread 3 time: 0.009520
-thread 4 time: 0.009693
-thread 5 time: 0.006435
-thread 6 time: 0.010184
-thread 7 time: 0.006345
-program finished, time took: 0.011405
+thread 0 time: 0.004919
+thread 1 time: 0.004894
+thread 2 time: 0.009364
+thread 3 time: 0.009589
+thread 4 time: 0.004865
+thread 5 time: 0.009261
+thread 6 time: 0.009282
+thread 7 time: 0.004756
+program finished, time took: 0.009679
 ==================
 
 ==================
 filter size: 8
 ------------
 	threads: 1
-thread 0 time: 0.192392
-program finished, time took: 0.192492
+thread 0 time: 0.194098
+program finished, time took: 0.194204
 	threads: 2
-thread 0 time: 0.096962
-thread 1 time: 0.097103
-program finished, time took: 0.097172
+thread 0 time: 0.097547
+thread 1 time: 0.097670
+program finished, time took: 0.097742
 	threads: 4
-thread 0 time: 0.048454
-thread 1 time: 0.048598
-thread 2 time: 0.048682
-thread 3 time: 0.048939
-program finished, time took: 0.049053
+thread 0 time: 0.048370
+thread 1 time: 0.048157
+thread 2 time: 0.048560
+thread 3 time: 0.049311
+program finished, time took: 0.049398
 	threads: 8
-thread 0 time: 0.042209
-thread 1 time: 0.044041
-thread 2 time: 0.044050
-thread 3 time: 0.049106
-thread 4 time: 0.024452
-thread 5 time: 0.039763
-thread 6 time: 0.044139
-thread 7 time: 0.033288
-program finished, time took: 0.057410
+thread 0 time: 0.048444
+thread 1 time: 0.040120
+thread 2 time: 0.048570
+thread 3 time: 0.044332
+thread 4 time: 0.047049
+thread 5 time: 0.044681
+thread 6 time: 0.049226
+thread 7 time: 0.040384
+program finished, time took: 0.049495
 ==================
 
 ==================
 filter size: 13
 ------------
 	threads: 1
-thread 0 time: 0.506880
-program finished, time took: 0.506979
+thread 0 time: 0.508627
+program finished, time took: 0.508724
 	threads: 2
-thread 0 time: 0.252871
-thread 1 time: 0.253244
-program finished, time took: 0.253325
+thread 0 time: 0.253377
+thread 1 time: 0.253772
+program finished, time took: 0.253843
 	threads: 4
-thread 0 time: 0.128041
-thread 1 time: 0.126830
-thread 2 time: 0.127234
-thread 3 time: 0.126566
-program finished, time took: 0.128107
+thread 0 time: 0.127664
+thread 1 time: 0.127008
+thread 2 time: 0.127691
+thread 3 time: 0.127032
+program finished, time took: 0.127765
 	threads: 8
-thread 0 time: 0.127470
-thread 1 time: 0.114502
-thread 2 time: 0.065661
-thread 3 time: 0.126466
-thread 4 time: 0.121918
-thread 5 time: 0.132111
-thread 6 time: 0.100793
-thread 7 time: 0.126962
-program finished, time took: 0.132248
+thread 0 time: 0.123460
+thread 1 time: 0.126060
+thread 2 time: 0.063920
+thread 3 time: 0.135611
+thread 4 time: 0.123923
+thread 5 time: 0.108228
+thread 6 time: 0.064229
+thread 7 time: 0.068596
+program finished, time took: 0.135757
 ==================
 
 ==================
 filter size: 18
 ------------
 	threads: 1
-thread 0 time: 0.946977
-program finished, time took: 0.947073
+thread 0 time: 0.947591
+program finished, time took: 0.947690
 	threads: 2
-thread 0 time: 0.472890
-thread 1 time: 0.472190
-program finished, time took: 0.472987
+thread 0 time: 0.474636
+thread 1 time: 0.473854
+program finished, time took: 0.474711
 	threads: 4
-thread 0 time: 0.237786
-thread 1 time: 0.236246
-thread 2 time: 0.237068
-thread 3 time: 0.236464
-program finished, time took: 0.237853
+thread 0 time: 0.238509
+thread 1 time: 0.238674
+thread 2 time: 0.238357
+thread 3 time: 0.236242
+program finished, time took: 0.245351
 	threads: 8
-thread 0 time: 0.226278
-thread 1 time: 0.195856
-thread 2 time: 0.213287
-thread 3 time: 0.220908
-thread 4 time: 0.236814
-thread 5 time: 0.231669
-thread 6 time: 0.121095
-thread 7 time: 0.211146
-program finished, time took: 0.248377
+thread 0 time: 0.227152
+thread 1 time: 0.232102
+thread 2 time: 0.120838
+thread 3 time: 0.218595
+thread 4 time: 0.231365
+thread 5 time: 0.251932
+thread 6 time: 0.216182
+thread 7 time: 0.178396
+program finished, time took: 0.252076
 ==================
 
 ==================
 filter size: 23
 ------------
 	threads: 1
-thread 0 time: 1.526030
-program finished, time took: 1.526126
+thread 0 time: 1.536965
+program finished, time took: 1.537089
 	threads: 2
-thread 0 time: 0.762735
-thread 1 time: 0.762658
-program finished, time took: 0.762812
+thread 0 time: 0.762625
+thread 1 time: 0.761650
+program finished, time took: 0.762695
 	threads: 4
-thread 0 time: 0.408351
-thread 1 time: 0.411727
-thread 2 time: 0.460992
-thread 3 time: 0.394480
-program finished, time took: 0.461230
+thread 0 time: 0.389023
+thread 1 time: 0.383796
+thread 2 time: 0.387301
+thread 3 time: 0.391220
+program finished, time took: 0.396052
 	threads: 8
-thread 0 time: 0.538922
-thread 1 time: 0.469863
-thread 2 time: 0.522547
-thread 3 time: 0.523646
-thread 4 time: 0.491581
-thread 5 time: 0.490707
-thread 6 time: 0.519206
-thread 7 time: 0.427195
-program finished, time took: 0.539047
+thread 0 time: 0.190268
+thread 1 time: 0.386965
+thread 2 time: 0.321367
+thread 3 time: 0.301479
+thread 4 time: 0.347867
+thread 5 time: 0.377493
+thread 6 time: 0.381216
+thread 7 time: 0.342312
+program finished, time took: 0.395285
 ==================
 
 ==================
 filter size: 28
 ------------
 	threads: 1
-thread 0 time: 2.241691
-program finished, time took: 2.241796
+thread 0 time: 2.240305
+program finished, time took: 2.240405
 	threads: 2
-thread 0 time: 1.121207
-thread 1 time: 1.116821
-program finished, time took: 1.121339
+thread 0 time: 1.119318
+thread 1 time: 1.119741
+program finished, time took: 1.119806
 	threads: 4
-thread 0 time: 0.568364
-thread 1 time: 0.561247
-thread 2 time: 0.559036
-thread 3 time: 0.560879
-program finished, time took: 0.568465
+thread 0 time: 0.571371
+thread 1 time: 0.574147
+thread 2 time: 0.570270
+thread 3 time: 0.577890
+program finished, time took: 0.578610
 	threads: 8
-thread 0 time: 0.547605
-thread 1 time: 0.559418
-thread 2 time: 0.558413
-thread 3 time: 0.551348
-thread 4 time: 0.558814
-thread 5 time: 0.546816
-thread 6 time: 0.547159
-thread 7 time: 0.548629
-program finished, time took: 0.565929
+thread 0 time: 0.566484
+thread 1 time: 0.576156
+thread 2 time: 0.572224
+thread 3 time: 0.561825
+thread 4 time: 0.557486
+thread 5 time: 0.549315
+thread 6 time: 0.568047
+thread 7 time: 0.563504
+program finished, time took: 0.579233
 ==================
 
 ==================
 filter size: 33
 ------------
 	threads: 1
-thread 0 time: 3.134276
-program finished, time took: 3.134372
+thread 0 time: 3.091213
+program finished, time took: 3.091318
 	threads: 2
-thread 0 time: 1.548278
-thread 1 time: 1.588553
-program finished, time took: 1.588643
+thread 0 time: 1.549474
+thread 1 time: 1.542234
+program finished, time took: 1.549555
 	threads: 4
-thread 0 time: 0.774339
-thread 1 time: 0.779291
-thread 2 time: 0.780051
-thread 3 time: 0.783079
-program finished, time took: 0.783196
+thread 0 time: 0.783184
+thread 1 time: 0.775059
+thread 2 time: 0.781287
+thread 3 time: 0.777259
+program finished, time took: 0.783281
 	threads: 8
-thread 0 time: 0.540745
-thread 1 time: 0.718897
-thread 2 time: 0.780738
-thread 3 time: 0.724384
-thread 4 time: 0.818549
-thread 5 time: 0.782994
-thread 6 time: 0.788942
-thread 7 time: 0.796403
-program finished, time took: 0.830447
+thread 0 time: 0.788877
+thread 1 time: 0.772730
+thread 2 time: 0.714012
+thread 3 time: 0.801561
+thread 4 time: 0.752637
+thread 5 time: 0.793158
+thread 6 time: 0.792911
+thread 7 time: 0.799527
+program finished, time took: 0.815719
 ==================
 
 ==================
 filter size: 38
 ------------
 	threads: 1
-thread 0 time: 4.104828
-program finished, time took: 4.104927
+thread 0 time: 4.094885
+program finished, time took: 4.094984
 	threads: 2
-thread 0 time: 2.041829
-thread 1 time: 2.041661
-program finished, time took: 2.042163
+thread 0 time: 2.088216
+thread 1 time: 2.048660
+program finished, time took: 2.088298
 	threads: 4
-thread 0 time: 1.030853
-thread 1 time: 1.043702
-thread 2 time: 1.040444
-thread 3 time: 1.055089
-program finished, time took: 1.058350
+thread 0 time: 1.054077
+thread 1 time: 1.051487
+thread 2 time: 1.051738
+thread 3 time: 1.106697
+program finished, time took: 1.106795
 	threads: 8
-thread 0 time: 0.765941
-thread 1 time: 1.028145
-thread 2 time: 0.967133
-thread 3 time: 1.045727
-thread 4 time: 1.026101
-thread 5 time: 1.064521
-thread 6 time: 1.044355
-thread 7 time: 0.985434
-program finished, time took: 1.078740
+thread 0 time: 1.033994
+thread 1 time: 1.030141
+thread 2 time: 1.047036
+thread 3 time: 1.040622
+thread 4 time: 1.019411
+thread 5 time: 1.012797
+thread 6 time: 1.034806
+thread 7 time: 1.009307
+program finished, time took: 1.047162
 ==================
 
 ==================
 filter size: 43
 ------------
 	threads: 1
-thread 0 time: 5.244654
-program finished, time took: 5.244741
+thread 0 time: 5.277221
+program finished, time took: 5.277316
 	threads: 2
-thread 0 time: 2.611514
-thread 1 time: 2.613339
-program finished, time took: 2.613415
+thread 0 time: 2.609571
+thread 1 time: 2.623012
+program finished, time took: 2.623091
 	threads: 4
-thread 0 time: 1.393597
-thread 1 time: 1.332673
-thread 2 time: 1.330551
-thread 3 time: 1.348439
-program finished, time took: 1.393677
+thread 0 time: 1.394750
+thread 1 time: 1.351810
+thread 2 time: 1.391518
+thread 3 time: 1.353886
+program finished, time took: 1.394848
 	threads: 8
-thread 0 time: 1.306365
-thread 1 time: 1.306921
-thread 2 time: 1.311015
-thread 3 time: 1.311605
-thread 4 time: 1.307468
-thread 5 time: 1.297601
-thread 6 time: 1.294749
-thread 7 time: 1.296589
-program finished, time took: 1.316520
+thread 0 time: 0.995114
+thread 1 time: 1.253296
+thread 2 time: 1.386641
+thread 3 time: 1.340529
+thread 4 time: 1.301021
+thread 5 time: 1.397655
+thread 6 time: 1.390433
+thread 7 time: 1.348292
+program finished, time took: 1.408710
 ==================
 
 ==================
 filter size: 48
 ------------
 	threads: 1
-thread 0 time: 6.570597
-program finished, time took: 6.570696
+thread 0 time: 6.535291
+program finished, time took: 6.535388
 	threads: 2
-thread 0 time: 3.271582
-thread 1 time: 3.245604
-program finished, time took: 3.271657
+thread 0 time: 3.246463
+thread 1 time: 3.247039
+program finished, time took: 3.247110
 	threads: 4
-thread 0 time: 1.662386
-thread 1 time: 1.622936
-thread 2 time: 1.628206
-thread 3 time: 1.681866
-program finished, time took: 1.681960
+thread 0 time: 1.642703
+thread 1 time: 1.623181
+thread 2 time: 1.623639
+thread 3 time: 1.635548
+program finished, time took: 1.642775
 	threads: 8
-thread 0 time: 1.572330
-thread 1 time: 1.754706
-thread 2 time: 1.678572
-thread 3 time: 1.653045
-thread 4 time: 1.745858
-thread 5 time: 1.717158
-thread 6 time: 1.674329
-thread 7 time: 1.796009
-program finished, time took: 1.805380
+thread 0 time: 1.016670
+thread 1 time: 1.550061
+thread 2 time: 1.713603
+thread 3 time: 1.604223
+thread 4 time: 1.273007
+thread 5 time: 1.515355
+thread 6 time: 1.473260
+thread 7 time: 1.689977
+program finished, time took: 1.713711
 ==================
 
 ==================
 filter size: 53
 ------------
 	threads: 1
-thread 0 time: 8.068470
-program finished, time took: 8.068575
+thread 0 time: 7.940411
+program finished, time took: 7.940511
 	threads: 2
-thread 0 time: 3.962580
-thread 1 time: 3.970373
-program finished, time took: 3.970444
+thread 0 time: 3.948037
+thread 1 time: 3.969132
+program finished, time took: 3.969201
 	threads: 4
-thread 0 time: 2.601089
-thread 1 time: 2.537330
-thread 2 time: 2.727317
-thread 3 time: 2.213152
-program finished, time took: 2.727429
+thread 0 time: 2.097813
+thread 1 time: 2.173826
+thread 2 time: 2.162777
+thread 3 time: 1.974895
+program finished, time took: 2.173898
 	threads: 8
-thread 0 time: 2.174496
-thread 1 time: 2.183513
-thread 2 time: 2.142081
-thread 3 time: 2.177365
-thread 4 time: 2.218243
-thread 5 time: 2.134338
-thread 6 time: 2.209177
-thread 7 time: 2.240187
-program finished, time took: 2.240351
+thread 0 time: 1.818994
+thread 1 time: 1.969186
+thread 2 time: 2.015376
+thread 3 time: 2.000054
+thread 4 time: 1.984739
+thread 5 time: 1.972097
+thread 6 time: 1.963567
+thread 7 time: 2.001158
+program finished, time took: 2.017132
 ==================
 
 ==================
 filter size: 58
 ------------
 	threads: 1
-thread 0 time: 9.721010
-program finished, time took: 9.721125
+thread 0 time: 9.466423
+program finished, time took: 9.466523
 	threads: 2
-thread 0 time: 4.731556
-thread 1 time: 4.731596
-program finished, time took: 4.731673
+thread 0 time: 4.730102
+thread 1 time: 4.727772
+program finished, time took: 4.730210
 	threads: 4
-thread 0 time: 2.393717
-thread 1 time: 2.478854
-thread 2 time: 2.674284
-thread 3 time: 2.487452
-program finished, time took: 2.674378
+thread 0 time: 2.679629
+thread 1 time: 2.492473
+thread 2 time: 2.515651
+thread 3 time: 2.567090
+program finished, time took: 2.679715
 	threads: 8
-thread 0 time: 2.427205
-thread 1 time: 2.528931
-thread 2 time: 2.516182
-thread 3 time: 2.475954
-thread 4 time: 2.576900
-thread 5 time: 2.566252
-thread 6 time: 2.509211
-thread 7 time: 2.510933
-program finished, time took: 2.592761
+thread 0 time: 2.403150
+thread 1 time: 2.437651
+thread 2 time: 2.450432
+thread 3 time: 2.434206
+thread 4 time: 2.281468
+thread 5 time: 2.469784
+thread 6 time: 2.453037
+thread 7 time: 2.431969
+program finished, time took: 2.479222
 ==================
 
 ==================
 filter size: 63
 ------------
 	threads: 1
-thread 0 time: 11.167218
-program finished, time took: 11.167331
+thread 0 time: 11.179756
+program finished, time took: 11.179864
 	threads: 2
-thread 0 time: 5.829839
-thread 1 time: 5.580203
-program finished, time took: 5.829928
+thread 0 time: 5.569682
+thread 1 time: 5.570994
+program finished, time took: 5.571063
 	threads: 4
-thread 0 time: 3.168038
-thread 1 time: 3.080853
-thread 2 time: 3.144918
-thread 3 time: 3.119439
-program finished, time took: 3.168125
+thread 0 time: 2.813596
+thread 1 time: 2.788569
+thread 2 time: 2.851498
+thread 3 time: 2.790038
+program finished, time took: 2.851585
 	threads: 8
-thread 0 time: 2.615956
-thread 1 time: 2.606444
-thread 2 time: 2.778846
-thread 3 time: 2.843347
-thread 4 time: 2.824837
-thread 5 time: 2.844710
-thread 6 time: 2.827382
-thread 7 time: 2.895163
-program finished, time took: 2.905777
+thread 0 time: 2.716688
+thread 1 time: 2.887073
+thread 2 time: 2.088755
+thread 3 time: 2.972340
+thread 4 time: 2.822666
+thread 5 time: 2.968682
+thread 6 time: 2.875683
+thread 7 time: 2.859498
+program finished, time took: 2.974507
+==================
+
+-=-=-=-block-=-=-=-
+
+==================
+filter size: 3
+------------
+	threads: 1
+thread 0 time: 0.036883
+program finished, time took: 0.036987
+	threads: 2
+thread 0 time: 0.018470
+thread 1 time: 0.018434
+program finished, time took: 0.018549
+	threads: 4
+thread 0 time: 0.009264
+thread 1 time: 0.009026
+thread 2 time: 0.009013
+thread 3 time: 0.008983
+program finished, time took: 0.009352
+	threads: 8
+thread 0 time: 0.009180
+thread 1 time: 0.009433
+thread 2 time: 0.009153
+thread 3 time: 0.004810
+thread 4 time: 0.004758
+thread 5 time: 0.004733
+thread 6 time: 0.008993
+thread 7 time: 0.004333
+program finished, time took: 0.013581
+==================
+
+==================
+filter size: 8
+------------
+	threads: 1
+thread 0 time: 0.192311
+program finished, time took: 0.192406
+	threads: 2
+thread 0 time: 0.098166
+thread 1 time: 0.097381
+program finished, time took: 0.098248
+	threads: 4
+thread 0 time: 0.049051
+thread 1 time: 0.048151
+thread 2 time: 0.048588
+thread 3 time: 0.050518
+program finished, time took: 0.050941
+	threads: 8
+thread 0 time: 0.042220
+thread 1 time: 0.043095
+thread 2 time: 0.048552
+thread 3 time: 0.033608
+thread 4 time: 0.025022
+thread 5 time: 0.050541
+thread 6 time: 0.040691
+thread 7 time: 0.031288
+program finished, time took: 0.055365
+==================
+
+==================
+filter size: 13
+------------
+	threads: 1
+thread 0 time: 0.522048
+program finished, time took: 0.522164
+	threads: 2
+thread 0 time: 0.262801
+thread 1 time: 0.254120
+program finished, time took: 0.262897
+	threads: 4
+thread 0 time: 0.140873
+thread 1 time: 0.137608
+thread 2 time: 0.148555
+thread 3 time: 0.126345
+program finished, time took: 0.148645
+	threads: 8
+thread 0 time: 0.122300
+thread 1 time: 0.124873
+thread 2 time: 0.064514
+thread 3 time: 0.063324
+thread 4 time: 0.100136
+thread 5 time: 0.100954
+thread 6 time: 0.112947
+thread 7 time: 0.119985
+program finished, time took: 0.133682
+==================
+
+==================
+filter size: 18
+------------
+	threads: 1
+thread 0 time: 0.948281
+program finished, time took: 0.948381
+	threads: 2
+thread 0 time: 0.474721
+thread 1 time: 0.473732
+program finished, time took: 0.474807
+	threads: 4
+thread 0 time: 0.242183
+thread 1 time: 0.240180
+thread 2 time: 0.244240
+thread 3 time: 0.239952
+program finished, time took: 0.244336
+	threads: 8
+thread 0 time: 0.118400
+thread 1 time: 0.222329
+thread 2 time: 0.226732
+thread 3 time: 0.228930
+thread 4 time: 0.221227
+thread 5 time: 0.179795
+thread 6 time: 0.219476
+thread 7 time: 0.242103
+program finished, time took: 0.257607
+==================
+
+==================
+filter size: 23
+------------
+	threads: 1
+thread 0 time: 1.525762
+program finished, time took: 1.525862
+	threads: 2
+thread 0 time: 0.760437
+thread 1 time: 0.761198
+program finished, time took: 0.761275
+	threads: 4
+thread 0 time: 0.385404
+thread 1 time: 0.383421
+thread 2 time: 0.386414
+thread 3 time: 0.385482
+program finished, time took: 0.387534
+	threads: 8
+thread 0 time: 0.378790
+thread 1 time: 0.396782
+thread 2 time: 0.377645
+thread 3 time: 0.376145
+thread 4 time: 0.288116
+thread 5 time: 0.383961
+thread 6 time: 0.347658
+thread 7 time: 0.387642
+program finished, time took: 0.397071
+==================
+
+==================
+filter size: 28
+------------
+	threads: 1
+thread 0 time: 2.245171
+program finished, time took: 2.245265
+	threads: 2
+thread 0 time: 1.125679
+thread 1 time: 1.117316
+program finished, time took: 1.125774
+	threads: 4
+thread 0 time: 0.571398
+thread 1 time: 0.562087
+thread 2 time: 0.565622
+thread 3 time: 0.579528
+program finished, time took: 0.584243
+	threads: 8
+thread 0 time: 0.326552
+thread 1 time: 0.536615
+thread 2 time: 0.586529
+thread 3 time: 0.478919
+thread 4 time: 0.567177
+thread 5 time: 0.589142
+thread 6 time: 0.557517
+thread 7 time: 0.562376
+program finished, time took: 0.599215
+==================
+
+==================
+filter size: 33
+------------
+	threads: 1
+thread 0 time: 3.097051
+program finished, time took: 3.097147
+	threads: 2
+thread 0 time: 1.541637
+thread 1 time: 1.552296
+program finished, time took: 1.552371
+	threads: 4
+thread 0 time: 0.797297
+thread 1 time: 0.782208
+thread 2 time: 0.800277
+thread 3 time: 0.791182
+program finished, time took: 0.800360
+	threads: 8
+thread 0 time: 0.483440
+thread 1 time: 0.790741
+thread 2 time: 0.759415
+thread 3 time: 0.751947
+thread 4 time: 0.837398
+thread 5 time: 0.833227
+thread 6 time: 0.718310
+thread 7 time: 0.646966
+program finished, time took: 0.850282
+==================
+
+==================
+filter size: 38
+------------
+	threads: 1
+thread 0 time: 4.088771
+program finished, time took: 4.088879
+	threads: 2
+thread 0 time: 2.044836
+thread 1 time: 2.046447
+program finished, time took: 2.046521
+	threads: 4
+thread 0 time: 1.154125
+thread 1 time: 1.162794
+thread 2 time: 1.067764
+thread 3 time: 1.022276
+program finished, time took: 1.162869
+	threads: 8
+thread 0 time: 0.990507
+thread 1 time: 1.134185
+thread 2 time: 0.959321
+thread 3 time: 1.102486
+thread 4 time: 1.093048
+thread 5 time: 1.084130
+thread 6 time: 1.037910
+thread 7 time: 1.093914
+program finished, time took: 1.134293
+==================
+
+==================
+filter size: 43
+------------
+	threads: 1
+thread 0 time: 5.282195
+program finished, time took: 5.282298
+	threads: 2
+thread 0 time: 2.614232
+thread 1 time: 2.616840
+program finished, time took: 2.616914
+	threads: 4
+thread 0 time: 1.309859
+thread 1 time: 1.317476
+thread 2 time: 1.325397
+thread 3 time: 1.321974
+program finished, time took: 1.325505
+	threads: 8
+thread 0 time: 0.843568
+thread 1 time: 1.127957
+thread 2 time: 1.314443
+thread 3 time: 1.235700
+thread 4 time: 1.332152
+thread 5 time: 1.269426
+thread 6 time: 1.268829
+thread 7 time: 1.284716
+program finished, time took: 1.341648
+==================
+
+==================
+filter size: 48
+------------
+	threads: 1
+thread 0 time: 6.530299
+program finished, time took: 6.530404
+	threads: 2
+thread 0 time: 3.244762
+thread 1 time: 3.245831
+program finished, time took: 3.245898
+	threads: 4
+thread 0 time: 1.659277
+thread 1 time: 1.623766
+thread 2 time: 1.638096
+thread 3 time: 1.646516
+program finished, time took: 1.659349
+	threads: 8
+thread 0 time: 1.635553
+thread 1 time: 1.620038
+thread 2 time: 1.639405
+thread 3 time: 1.624896
+thread 4 time: 1.640140
+thread 5 time: 1.635974
+thread 6 time: 1.613245
+thread 7 time: 1.631417
+program finished, time took: 1.651125
+==================
+
+==================
+filter size: 53
+------------
+	threads: 1
+thread 0 time: 7.936547
+program finished, time took: 7.936653
+	threads: 2
+thread 0 time: 3.986380
+thread 1 time: 3.949690
+program finished, time took: 3.986455
+	threads: 4
+thread 0 time: 2.131492
+thread 1 time: 2.071953
+thread 2 time: 2.085388
+thread 3 time: 1.978038
+program finished, time took: 2.131597
+	threads: 8
+thread 0 time: 2.160167
+thread 1 time: 2.046609
+thread 2 time: 2.029884
+thread 3 time: 2.104966
+thread 4 time: 2.090080
+thread 5 time: 2.095930
+thread 6 time: 2.029548
+thread 7 time: 2.027959
+program finished, time took: 2.160272
+==================
+
+==================
+filter size: 58
+------------
+	threads: 1
+thread 0 time: 9.606548
+program finished, time took: 9.606650
+	threads: 2
+thread 0 time: 4.722303
+thread 1 time: 4.720999
+program finished, time took: 4.722400
+	threads: 4
+thread 0 time: 2.379718
+thread 1 time: 2.391043
+thread 2 time: 2.363928
+thread 3 time: 2.362483
+program finished, time took: 2.391116
+	threads: 8
+thread 0 time: 2.220417
+thread 1 time: 2.348528
+thread 2 time: 1.991355
+thread 3 time: 2.391859
+thread 4 time: 2.398723
+thread 5 time: 2.309734
+thread 6 time: 2.247181
+thread 7 time: 2.291108
+program finished, time took: 2.406203
+==================
+
+==================
+filter size: 63
+------------
+	threads: 1
+thread 0 time: 11.130605
+program finished, time took: 11.130705
+	threads: 2
+thread 0 time: 5.554152
+thread 1 time: 5.558096
+program finished, time took: 5.558169
+	threads: 4
+thread 0 time: 2.788795
+thread 1 time: 2.791961
+thread 2 time: 2.777118
+thread 3 time: 2.783002
+program finished, time took: 2.792033
+	threads: 8
+thread 0 time: 2.357762
+thread 1 time: 2.701869
+thread 2 time: 2.519888
+thread 3 time: 2.810272
+thread 4 time: 2.591969
+thread 5 time: 2.641043
+thread 6 time: 2.877910
+thread 7 time: 2.721631
+program finished, time took: 2.888021
 ==================

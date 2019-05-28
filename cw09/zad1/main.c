@@ -1,24 +1,38 @@
+#define _XOPEN_SOURCE 500
+
 #include <stdio.h>
 #include <stdarg.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <sys/time.h>
+#include <unistd.h>
 
 int num_passengers;
 int num_trolleys;
 int trolley_capacity;
 int num_rides;
+int trolleys_stoped=0;
 
 int* queue;
 int queue_size=0;
 
-int current_rolley = 0;
+int current_trolley = 0;
+int current_passenger = -1;
+int passengers_inside = 0;
+int current_leaver=-1;
+int button_pressed =0;
+int button_passenger=-1;
 
-pthread_mutex_t mutex_current_rolley = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_current_trolley = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_passenger_entered = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_button_passenger = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_passenger_left = PTHREAD_MUTEX_INITIALIZER;
 
-pthread_cond_t cond_current_rolley = PTHREAD_COND_INITIALIZER;
-
+pthread_cond_t cond_current_trolley = PTHREAD_COND_INITIALIZER;
+pthread_cond_t cond_passenger_entered = PTHREAD_COND_INITIALIZER;
+pthread_cond_t cond_button_passenger = PTHREAD_COND_INITIALIZER;
+pthread_cond_t cond_passenger_left = PTHREAD_COND_INITIALIZER;
 
 void push_queue(int passenger) {
     queue[queue_size++] = passenger;
@@ -58,28 +72,90 @@ void* trolley_worker(void *arg) {
     int id = *((int*)arg);
 
     int* passengers = malloc(trolley_capacity * sizeof(int));
+    for(int i = 0; i < trolley_capacity; ++i) {
+        passengers[i] = -1;
+    }
+    int trolley_full = 0;
 
-    for(int ride = 0; ride < num_rides; ++ride) {
-        pthread_mutex_lock(&mutex_current_rolley);
-        while(current_rolley != id) {
-            pthread_cond_wait(&cond_current_rolley, &mutex_current_rolley);
+    for(int ride = 0; ride <= num_rides; ++ride) {
+        pthread_mutex_lock(&mutex_current_trolley);
+        while(current_trolley != id) {
+            pthread_cond_wait(&cond_current_trolley, &mutex_current_trolley);
         }
 
-        print_time("trolley: %d arrived, waiting for passengers\n", id);
+        current_passenger = -1;
+        current_leaver = -1;
+        button_pressed = 0;
+        button_passenger = -1;
+
+        print_time("trolley: %d arrived\n", id);
+        
+        print_time("trolley: %d opened door\n", id);
+        
+        if(trolley_full == 1) {
+            pthread_mutex_lock(&mutex_passenger_left);
+            passengers_inside = trolley_capacity;
+            for(int i = 0; i < trolley_capacity; ++i) {
+                current_leaver = passengers[i];
+                pthread_cond_broadcast(&cond_passenger_left);
+                while(current_leaver != -1) {
+                    pthread_cond_wait(&cond_passenger_left, &mutex_passenger_left);
+                }
+                passengers_inside--;
+                push_queue(passengers[i]);
+            }
+            pthread_mutex_unlock(&mutex_passenger_left);
+        }
+
+        if(ride == num_rides) {
+            print_time("trolley: %d stops\n", id);
+            current_trolley = (current_trolley+1)%num_trolleys;
+            trolleys_stoped++;
+            pthread_cond_broadcast(&cond_passenger_entered);
+            pthread_cond_broadcast(&cond_current_trolley);
+            pthread_mutex_unlock(&mutex_current_trolley);
+            break;
+        }
 
 
+        pthread_mutex_lock(&mutex_passenger_entered);
         for(int i = 0; i < trolley_capacity; ++i) {
             
+            current_passenger = pop_queue();
+            passengers[i] = current_passenger;
+            passengers_inside ++;
+            pthread_cond_broadcast(&cond_passenger_entered);
+            while(current_passenger != -1) {
+                pthread_cond_wait(&cond_passenger_entered, &mutex_passenger_entered);
+            }
+            
         }
+        trolley_full=1;
+        pthread_mutex_unlock(&mutex_passenger_entered);
 
 
-        current_rolley = (current_rolley+1)%num_trolleys;
+        pthread_mutex_lock(&mutex_button_passenger);
+        button_passenger = passengers[rand() % trolley_capacity];
+        pthread_cond_broadcast(&cond_button_passenger);
+        while (button_pressed != 1) {
+            pthread_cond_wait(&cond_button_passenger, &mutex_button_passenger);
+        }
+        pthread_mutex_unlock(&mutex_button_passenger);
 
-        pthread_cond_broadcast(&cond_current_rolley);
-        pthread_mutex_unlock(&mutex_current_rolley);
+        print_time("trolley: %d closed doors\n", id);
+        
+        print_time("trolley: %d is leaving the platform\n", id);
+
+        current_trolley = (current_trolley+1)%num_trolleys;
+
+        pthread_cond_broadcast(&cond_current_trolley);
+        pthread_mutex_unlock(&mutex_current_trolley);
+
+        sleep(5);
     }
-
     free(passengers);
+
+    
     return 0;
 }
 
@@ -87,11 +163,58 @@ void* passenger_worker(void *arg) {
     int id = *((int*) arg);
 
 
+    while(num_trolleys > 0) {
+        pthread_mutex_lock(&mutex_passenger_entered);
+        while (current_passenger != id && trolleys_stoped < num_trolleys) {
+            pthread_cond_wait(&cond_passenger_entered, &mutex_passenger_entered);
+        }
+        if(num_trolleys == trolleys_stoped) {
+            print_time("passenger: %d walks away, no more trolleys\n", id);
+
+            pthread_cond_broadcast(&cond_passenger_entered);
+            pthread_mutex_unlock(&mutex_passenger_entered);
+            break;
+        }
+        print_time("passenger: %d entered trolley: %d, places left: %d\n", id, current_trolley, trolley_capacity - passengers_inside);
+        current_passenger = -1;
+        pthread_cond_broadcast(&cond_passenger_entered);
+        pthread_mutex_unlock(&mutex_passenger_entered);
+
+
+        pthread_mutex_lock(&mutex_button_passenger);
+        while (button_passenger == -1) {
+            pthread_cond_wait(&cond_button_passenger, &mutex_button_passenger);
+        }
+
+        if(button_passenger == id) {
+            print_time("passenger: %d pressed the button\n", id);
+            button_pressed = 1;
+            pthread_cond_broadcast(&cond_button_passenger);
+        }
+
+        pthread_mutex_unlock(&mutex_button_passenger);
+
+
+        pthread_mutex_lock(&mutex_passenger_left);
+        while (current_leaver != id ) {
+            pthread_cond_wait(&cond_passenger_left, &mutex_passenger_left);
+        }
+       
+        print_time("passenger: %d left trolley: %d, passengers inside: %d\n", id, current_trolley, passengers_inside-1);
+        current_leaver = -1;
+        pthread_cond_broadcast(&cond_passenger_left);
+        
+        pthread_mutex_unlock(&mutex_passenger_left);
+
+    }
+ 
+
 
     return 0;
 }
 
 int main(int argc, char *argv[]) {
+    srand(time(0));
     if(argc != 5) {
         fprintf(stderr, "wrong arguments, usage: [num_passengers, num_trolleys, trolley_capacity, num_rides]\n");
         exit(1);
@@ -108,7 +231,7 @@ int main(int argc, char *argv[]) {
     }
 
 
-    if(num_passengers < trolley_capacity) {
+    if(num_passengers < trolley_capacity*num_trolleys) {
         fprintf(stderr, "not enought people\n");
         exit(1); 
     }
@@ -123,6 +246,7 @@ int main(int argc, char *argv[]) {
 
     for(int i = 0; i < num_passengers; ++i) {
         passengers[i] = i;
+        push_queue(i);
         if(pthread_create(&passengers_threads[i], NULL, passenger_worker, &passengers[i]) != 0) {
             fprintf(stderr, "cant create passengers threads\n");
             exit(1); 

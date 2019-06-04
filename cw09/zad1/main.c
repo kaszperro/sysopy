@@ -50,20 +50,20 @@ int pop_queue() {
 
 
 void print_time(const char* format, ...) {
-  struct timeval tv;
-  gettimeofday(&tv, NULL);
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
 
-  int h = tv.tv_sec / 3600;
-  int m = (tv.tv_sec - h * 3600) / 60;
-  int s = tv.tv_sec - h * 3600 - m * 60;
-  int ms = tv.tv_usec / 1000;
+    int h = tv.tv_sec / 3600;
+    int m = (tv.tv_sec - h * 3600) / 60;
+    int s = tv.tv_sec - h * 3600 - m * 60;
+    int ms = tv.tv_usec / 1000;
 
-  printf("%02d:%02d:%02d:%03d: ", h % 24, m, s, ms);
+    printf("%02d:%02d:%02d:%03d: ", h % 24, m, s, ms);
 
-  va_list args;
-  va_start(args, format);
-  vfprintf(stdout, format, args);
-  va_end(args);
+    va_list args;
+    va_start(args, format);
+    vfprintf(stdout, format, args);
+    va_end(args);
 }
 
 
@@ -87,6 +87,7 @@ void* trolley_worker(void *arg) {
         current_leaver = -1;
         button_pressed = 0;
         button_passenger = -1;
+        passengers_inside=0;
 
         print_time("trolley: %d arrived\n", id);
         
@@ -102,7 +103,6 @@ void* trolley_worker(void *arg) {
                     pthread_cond_wait(&cond_passenger_left, &mutex_passenger_left);
                 }
                 passengers_inside--;
-                push_queue(passengers[i]);
             }
             pthread_mutex_unlock(&mutex_passenger_left);
         }
@@ -150,8 +150,9 @@ void* trolley_worker(void *arg) {
 
         pthread_cond_broadcast(&cond_current_trolley);
         pthread_mutex_unlock(&mutex_current_trolley);
-
-        sleep(5);
+        
+        usleep((rand() % 10) * 1000);
+        //sleep(5);
     }
     free(passengers);
 
@@ -203,7 +204,7 @@ void* passenger_worker(void *arg) {
         print_time("passenger: %d left trolley: %d, passengers inside: %d\n", id, current_trolley, passengers_inside-1);
         current_leaver = -1;
         pthread_cond_broadcast(&cond_passenger_left);
-        
+        push_queue(id);
         pthread_mutex_unlock(&mutex_passenger_left);
 
     }

@@ -13,17 +13,14 @@
 #include <netinet/ip.h>
 #include <sys/un.h>
 
+#include <signal.h>
+
 #include <pthread.h>
 
 #include "message.h"
 
 #define MAX_CLIENTS 32
-#define CLIENT_NAME_SIZE 32
 
-
-int min(int a, int b){
-    return (a>b)?b:a;
-}
 
 
 typedef struct client_t {
@@ -39,14 +36,41 @@ client_t clients[MAX_CLIENTS];
 int connected_clients=0;
 
 int epoll = -1;
-int sock_net;
-int sock_unix;
+int sock_net=-1;
+int sock_unix=-1;
 
-void send_message(message_t *message, client_t *client) {
+int sent_task_counter = 0;
+
+char *unix_path = NULL;
+
+void clean() {
+    for(int i = 0; i < connected_clients; ++i) {
+        int type = MESSAGE_DISCONNECT;
+        write(clients[i].socket, &type, sizeof(int));
+    }
+
+    if(unix_path != NULL) {
+        unlink(unix_path);
+    }
+    if(sock_net != -1) {
+        close(sock_net);
+    }
+    if(sock_unix != -1) {
+        close(sock_unix);
+    }
+}
+
+void sigint_hanlder() {
+    exit(0);
+}
+
+void send_msg_client(char *text, client_t *client) {
+    int task_number = sent_task_counter++;
     client->busy++;
-    
-    write(client->socket, &message->type, sizeof(int));
-    write(client->socket, message, sizeof(message_t));
+    int msg_type = MESSAGE_ANSWER;
+    write(client->socket, &msg_type, sizeof(int));
+    write(client->socket, &task_number, sizeof(int));
+    write(client->socket, text, MAX_TEXT_SIZE);
 }
 
 int find_socket_index(int socket) {
@@ -87,16 +111,19 @@ void remove_client(int socket) {
 
 }
 
-void send_message_free(message_t *message) {
+void send_message_free(char *text) {
+    if(connected_clients == 0) {
+        printf("there are no clients\n");
+    }
     for(int i = 0; i < connected_clients; ++i) {
         if(clients[i].busy == 0) {
-            send_message(message, &clients[i]);
+            send_msg_client(text, &clients[i]);
             return;
         }
     }
 
     int rand_index = rand()%connected_clients;
-    send_message(message, &clients[rand_index]);
+    send_msg_client(text, &clients[rand_index]);
 }
 
 
@@ -127,7 +154,8 @@ void *ping_task(void *arg) {
 
 void *receive_task(void *arg) {
     struct epoll_event event;
-    message_t message;
+    char text_buff[MAX_TEXT_SIZE];
+    text_buff[0] = 0;
     while (1) {
         int how_many = epoll_wait(epoll, &event, 1, 1000);
         if(how_many < 1){
@@ -135,24 +163,30 @@ void *receive_task(void *arg) {
         }
 
         int which = event.data.fd;
-        int msg_type;
+        int msg_type=0;
 
-        if(read(which, &msg_type, sizeof(msg_type)) > 0) {
+        if(read(which, &msg_type, sizeof(msg_type)) == sizeof(msg_type)) {
+             int index = find_socket_index(which);
+
              if(msg_type == MESSAGE_DISCONNECT) {
-                printf("client wants to disconect\n");
-                
+                printf("client %s wants to disconect\n", clients[index].name);
+                remove_client(which);
+                printf("disconected\n");
+
             }
-            else if(msg_type == MESSAGE_ANSWER){
-                int index = find_socket_index(which);
-              
-                printf("got answer from: %s\n",  clients[index].name);
-                read(which, &message, sizeof(message));
-                printf("%s", message.text);
+            else if(msg_type == MESSAGE_ANSWER) {
+                int task_number;
+                read(which, &task_number, sizeof(int));
+                read(which, &text_buff, MAX_TEXT_SIZE);
+                
+                printf("got answer from: %s, task number: %d\n",  clients[index].name, task_number);
+                
+                printf("%s",text_buff);
 
-
+                clients[index].busy --;
             }
             else if(msg_type == MESSAGE_PING){
-                clients[find_socket_index(which)].ping = 1;
+                clients[index].ping = 1;
             }
 
         }
@@ -197,9 +231,10 @@ void accept_from_socket(int sock, char *name_buff) {
             return;
         }
 
-        create_client(name_buff, new_client);
         int type = MESSAGE_REGISTERED;
         write(new_client, &type, sizeof(type));
+
+        create_client(name_buff, new_client);
 
         printf("client: %s successfully registered\n", name_buff);
     } 
@@ -214,17 +249,17 @@ void *inet_accept_task(void *arg) {
 
 void *commands_task(void *arg) {
     char path[128];
-    message_t message;
+    char text_buffer[MAX_TEXT_SIZE];
+
     while(1) {
         scanf("%s", path);
+        printf("reading from: %s\n", path);
          FILE *f = fopen(path, "r");
          if(f != NULL) {
-           fread(&message.text, MAX_TEXT_SIZE, 1, f);
-      
-            message.type = MESSAGE_ANSWER;
+            int num_read = fread(&text_buffer, sizeof(char), MAX_TEXT_SIZE, f);
             fclose(f);
-
-            send_message_free(&message);
+            text_buffer[num_read] ='\0';
+            send_message_free(text_buffer);
          } else {
             perror("cant open file");
          }
@@ -270,7 +305,6 @@ int create_unix_socket(char *path) {
     strcpy(name.sun_path, path);
 
     unlink(path);
-
     if(bind(sock, (struct sockaddr*)&name, sizeof(name)) < 0) {
         perror("unable to bind unix");
         exit(1);
@@ -282,13 +316,15 @@ int create_unix_socket(char *path) {
 
 
 int main(int argc, char* argv[]) {
+    atexit(clean);
+     signal(SIGINT, sigint_hanlder);
     if (argc != 3) {
         fprintf(stderr, "usage: [port path]\n");
         exit(1);
     }
 
     int port;
-    char* unix_paht = argv[2];
+    unix_path = argv[2];
 
     if (sscanf(argv[1], "%d", &port) != 1) {
         perror("unable to parse port");
@@ -298,7 +334,7 @@ int main(int argc, char* argv[]) {
     printf("starting server...\n");
 
     sock_net = create_inet_socket(port);
-    sock_unix = create_unix_socket(unix_paht);
+    sock_unix = create_unix_socket(unix_path);
 
     epoll = epoll_create1(0);
 
@@ -311,10 +347,8 @@ int main(int argc, char* argv[]) {
     pthread_t ping_thread; 
     pthread_create(&ping_thread, NULL, ping_task, NULL);
 
-
     pthread_t receive_thread; 
     pthread_create(&receive_thread, NULL, receive_task, NULL);
-
 
     pthread_t accept_thread; 
     pthread_create(&accept_thread, NULL, inet_accept_task, NULL);
@@ -328,7 +362,5 @@ int main(int argc, char* argv[]) {
         accept_from_socket(sock_unix, name_buff);
     }
 
-    close(sock_net);
-    close(sock_unix);
     return 0;
 }
